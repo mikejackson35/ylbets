@@ -84,8 +84,18 @@ odds_dict = {
 }
 odds['market'] = odds['market'].map(odds_dict)
 
+def fix_names(df):
+    """
+    Takes in live datagolf scoring, cleans names, outputs list of active players this week
+    """
+    names = df['player_name'].str.split(expand=True)                  
+    names[0] = names[0].str.rstrip(",")
+    names[1] = names[1].str.rstrip(",")
+    names['player'] = names[1] + " " + names[0]
 
+    return names.player
 
+odds['player_name'] = fix_names(odds)
 
 odds.columns = ['Market','Player','Odds','FD','FD EV','DK','DK EV','BetMGM','BetMGM EV']
 
@@ -99,6 +109,8 @@ odds = odds[odds.Market==market].dropna()
 def df_style(val):
     return "font-weight: bold"
 
-styled_odds = odds.style.background_gradient(cmap="bone", subset=['FD EV','DK EV','BetMGM EV']).format(precision=2)#.applymap(df_style,subset=['Odds'])
+
+
+styled_odds = odds.style.background_gradient(cmap="gist_heat", subset=['FD EV','DK EV','BetMGM EV']).format(precision=2)#.applymap(df_style,subset=['Odds'])
 
 st.dataframe(styled_odds, hide_index=True, height=2000,use_container_width=True, column_config={'Market':None})
