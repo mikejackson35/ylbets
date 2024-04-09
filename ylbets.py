@@ -62,10 +62,19 @@ ev = dec_odds[['market','player_name','fanduel_ev','draftkings_ev','betmgm_ev']]
 
 odds = pd.merge(american_odds,ev,how='left',on=['market','player_name']).round(2)
 odds = odds[['market','player_name','datagolf_base_history_fit','fanduel','fanduel_ev','draftkings','draftkings_ev','betmgm','betmgm_ev']]
+odds.rename(columns={'datagolf_base_history_fit':'real_odds'}, inplace=True)
 
-odds.columns = ['Market','Player','Odds','FD','FD EV','DK','DK EV','BetMGM','BetMGM EV']
+def plus_prefix(a):
+    if a > 0:
+        b = f"+{a}"
+    else:
+        b = a
+    return b
 
-# st.dataframe(odds, hide_index=True, height=2000,use_container_width=True, column_config={'Market':None})
+odds['real_odds'] = odds['real_odds'].dropna().apply(plus_prefix)
+odds['fanduel'] = odds['fanduel'].dropna().apply(plus_prefix)
+odds['draftkings'] = odds['draftkings'].dropna().apply(plus_prefix)
+odds['betmgm'] = odds['betmgm'].dropna().apply(plus_prefix)
 
 odds_dict = {
     'win':'Win',
@@ -73,14 +82,23 @@ odds_dict = {
     'top_10':'Top 10',
     'top_20':'Top 20'
 }
-odds['Market'] = odds['Market'].map(odds_dict)
+odds['market'] = odds['market'].map(odds_dict)
+
+
+
+
+odds.columns = ['Market','Player','Odds','FD','FD EV','DK','DK EV','BetMGM','BetMGM EV']
 
 market = st.selectbox(
     'Choose Betting Market',
     ('Win','Top 5','Top 10','Top 20')
 )
 
-df = odds[(odds.Market==market) & (odds.Odds<100000)]
-# odds['Odds'] = odds['Odds'].astype(int)
-st.dataframe(df.dropna(), hide_index=True, height=2000,use_container_width=True, column_config={'Market':None})
-# st.dataframe(df, hide_index=True, height=2000,use_container_width=True, column_config={'Market':None})
+odds = odds[odds.Market==market].dropna()
+
+def df_style(val):
+    return "font-weight: bold"
+
+styled_odds = odds.style.background_gradient(cmap="bone", subset=['FD EV','DK EV','BetMGM EV']).format(precision=2)#.applymap(df_style,subset=['Odds'])
+
+st.dataframe(styled_odds, hide_index=True, height=2000,use_container_width=True, column_config={'Market':None})
