@@ -5,6 +5,16 @@ import streamlit as st
 
 dg_key = st.secrets.dg_key
 
+names_dict = {'Matt Fitzpatrick': 'Matthew Fitzpatrick',
+    'Si Kim': 'Si Woo Kim',
+    'Min Lee': 'Min Woo Lee',
+    'Byeong An': 'Byeong Hun An',
+    'Rooyen Van': 'Erik Van Rooyen',
+    'Vince Whaley': 'Vincent Whaley',
+    'Kevin Yu': 'Kevin Yu',
+    'Kyounghoon Lee': 'Kyoung-Hoon Lee'
+             }
+
 def implied_probability(moneyline_odds):
     """
     Calculate the implied probability from moneyline odds.
@@ -20,36 +30,17 @@ def implied_probability(moneyline_odds):
     return implied_prob
 
 def fix_names(df):
-    """
-    Swaps names to first,last and cleans multi-word names
-    """
+    
+    # swaps last/first into first/last name
     names = df['player_name'].str.split(expand=True)                  
     names[0] = names[0].str.rstrip(",")
     names[1] = names[1].str.rstrip(",")
     names['player_name'] = names[1] + " " + names[0]
 
-    corrections = {
-    'Matt Fitzpatrick': 'Matthew Fitzpatrick',
-    'Si Kim': 'Si Woo Kim',
-    'Min Lee': 'Min Woo Lee',
-    'Byeong An': 'Byeong Hun An',
-    'Rooyen Van': 'Erik Van Rooyen',
-    'Vince Whaley': 'Vincent Whaley',
-    'Kevin Yu': 'Kevin Yu',
-    'Kyounghoon Lee': 'Kyoung-Hoon Lee'
-}
-
-    for incorrect_name, correct_name in corrections.items():
+    # uses dictionary to correct known problem names
+    # ie "Jr" or "Si Woo Kim")
+    for incorrect_name, correct_name in names_dict.items():
         names['player_name'] = np.where(names['player_name'] == incorrect_name, correct_name, names['player_name'])
-
-    # names['player_name'] = np.where(names['player_name']=='Matt Fitzpatrick', 'Matthew Fitzpatrick', names['player'])
-    # names['player_name'] = np.where(names['player_name']=='Si Kim', 'Si Woo Kim', names['player'])
-    # names['player_name'] = np.where(names['player_name']=='Min Lee', 'Min Woo Lee', names['player'])
-    # names['player_name'] = np.where(names['player_name']=='Byeong An', 'Byeong Hun An', names['player'])
-    # names['player_name'] = np.where(names['player_name']=='Rooyen Van', 'Erik Van Rooyen', names['player'])
-    # names['player_name'] = np.where(names['player_name']=='Vince Whaley', 'Vincent Whaley', names['player'])
-    # names['player_name'] = np.where(names['player_name']=='Kevin Yu', 'kevin Yu', names['player'])
-    # names['player_name'] = np.where(names['player_name']=='Kyounghoon Lee', 'Kyoung-Hoon Lee', names['player'])
 
     return names.player_name
 
@@ -59,21 +50,24 @@ def plus_prefix(a):
     return a
 
 def get_ev_table(market_type):
-    # get datagolf line for each golfer
-    url = f"https://feeds.datagolf.com/betting-tools/outrights?tour=pga&market={market_type}&odds_format=american&file_format=csv&key={dg_key}"
-    dg_odds = pd.read_csv(url,usecols=['player_name','datagolf_base_history_fit']).dropna()
 
-    books = ['betmgm', 'betfair', 'fanduel', 'draftkings', 'bovada',
-        'williamhill', 'betonline', 'unibet', 'bet365',
-        'betway', 'skybet', 'pointsbet']
+    books = ['betmgm', 'betfair', 'fanduel', 'draftkings', 'bovada','williamhill', 'betonline', 'unibet', 'bet365','betway', 'skybet', 'pointsbet']
 
-    url = f"https://feeds.datagolf.com/betting-tools/outrights?tour=pga&market={market_type}&odds_format=american&file_format=csv&key={dg_key}"
-    am_odds = pd.read_csv(url,usecols=books).T.mean().to_frame()
+    # get dg and aggregate book lines for each golfer
+    url_am = f"https://feeds.datagolf.com/betting-tools/outrights?tour=pga&market={market_type}&odds_format=american&file_format=csv&key={dg_key}"
+    dg_odds = pd.read_csv(url_am,usecols=['player_name','datagolf_base_history_fit']).dropna()
 
-    dg_odds = dg_odds.merge(am_odds,left_index=True, right_index=True)
+    dg_odds_ = dg_odds[books].T.mean().to_frame() 
 
-    url = f"https://feeds.datagolf.com/betting-tools/outrights?tour=pga&market={market_type}&odds_format=decimal&file_format=csv&key={dg_key}"
-    dec_odds = pd.read_csv(url,usecols=books).T.mean().to_frame()
+    # aggregate book lines
+    # books = ['betmgm', 'betfair', 'fanduel', 'draftkings', 'bovada','williamhill', 'betonline', 'unibet', 'bet365','betway', 'skybet', 'pointsbet']
+    # dg_odds_ = pd.read_csv(url_am,usecols=books).T.mean().to_frame()                                # gets aggregate book lines
+    dg_odds = dg_odds.merge(dg_odds_,left_index=True, right_index=True) 
+
+
+    url_dec = f"https://feeds.datagolf.com/betting-tools/outrights?tour=pga&market={market_type}&odds_format=decimal&file_format=csv&key={dg_key}"
+    books = ['betmgm', 'betfair', 'fanduel', 'draftkings', 'bovada','williamhill', 'betonline', 'unibet', 'bet365','betway', 'skybet', 'pointsbet']
+    dec_odds = pd.read_csv(url_dec,usecols=books).T.mean().to_frame()
 
     df = dg_odds.merge(dec_odds,left_index=True, right_index=True).rename(
                 columns={
