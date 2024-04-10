@@ -51,24 +51,19 @@ def plus_prefix(a):
 
 def get_ev_table(market_type):
 
+    # constants
+    dg_outrights_data = pd.read_csv(f"https://feeds.datagolf.com/betting-tools/outrights?tour=pga&market={market_type}&odds_format=american&file_format=csv&key={dg_key}").dropna()
     books = ['betmgm', 'betfair', 'fanduel', 'draftkings', 'bovada','williamhill', 'betonline', 'unibet', 'bet365','betway', 'skybet', 'pointsbet']
 
-    # get dg and aggregate book lines for each golfer
-    url_am = f"https://feeds.datagolf.com/betting-tools/outrights?tour=pga&market={market_type}&odds_format=american&file_format=csv&key={dg_key}"
-    dg_odds = pd.read_csv(url_am,usecols=['player_name','datagolf_base_history_fit']).dropna()
+    # dg and book aggregates in moneyline form for all players all markets
+    real_odds = dg_outrights_data[['player_name','datagolf_base_history_fit']]
+    agg_lines = dg_outrights_data[books].T.mean().to_frame() 
+    dg_odds = pd.merge(real_odds, agg_lines, left_index=True, right_index=True) 
 
-    dg_odds_ = dg_odds[books].T.mean().to_frame() 
+    # dg decimal odds for calculating ev
+    dec_odds = pd.read_csv(f"https://feeds.datagolf.com/betting-tools/outrights?tour=pga&market={market_type}&odds_format=decimal&file_format=csv&key={dg_key}",usecols=books).T.mean().to_frame()
 
-    # aggregate book lines
-    # books = ['betmgm', 'betfair', 'fanduel', 'draftkings', 'bovada','williamhill', 'betonline', 'unibet', 'bet365','betway', 'skybet', 'pointsbet']
-    # dg_odds_ = pd.read_csv(url_am,usecols=books).T.mean().to_frame()                                # gets aggregate book lines
-    dg_odds = dg_odds.merge(dg_odds_,left_index=True, right_index=True) 
-
-
-    url_dec = f"https://feeds.datagolf.com/betting-tools/outrights?tour=pga&market={market_type}&odds_format=decimal&file_format=csv&key={dg_key}"
-    books = ['betmgm', 'betfair', 'fanduel', 'draftkings', 'bovada','williamhill', 'betonline', 'unibet', 'bet365','betway', 'skybet', 'pointsbet']
-    dec_odds = pd.read_csv(url_dec,usecols=books).T.mean().to_frame()
-
+    # merge
     df = dg_odds.merge(dec_odds,left_index=True, right_index=True).rename(
                 columns={
                     # 'player_name':'player',
