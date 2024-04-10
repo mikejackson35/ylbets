@@ -4,6 +4,7 @@ import numpy as np
 import streamlit as st
 import altair as alt
 from utils import get_ev_table, fix_names
+import contstants as c
 
 
 # Streamlit configs
