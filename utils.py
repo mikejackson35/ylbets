@@ -53,7 +53,7 @@ def plus_prefix(a):
 def get_ev_table(market_type):
 
     # constants
-    dg_outrights_data = pd.read_csv(f"https://feeds.datagolf.com/betting-tools/outrights?tour=pga&market={market_type}&odds_format=american&file_format=csv&key={dg_key}").dropna()
+    dg_outrights_data = pd.read_csv(f"https://feeds.datagolf.com/betting-tools/outrights?tour=pga&market={market_type}&odds_format=american&file_format=csv&key={dg_key}")
     books = ['betmgm', 'betfair', 'fanduel', 'draftkings', 'bovada','williamhill', 'betonline', 'unibet', 'bet365','betway', 'skybet', 'pointsbet']
 
     # dg and book aggregates in moneyline form for all players all markets
@@ -62,25 +62,16 @@ def get_ev_table(market_type):
     dg_odds = pd.merge(real_odds, agg_lines, left_index=True, right_index=True) 
 
     # dg decimal odds for calculating ev
-    dec_odds = pd.read_csv(f"https://feeds.datagolf.com/betting-tools/outrights?tour=pga&market={market_type}&odds_format=decimal&file_format=csv&key={dg_key}",usecols=['player_name','datagolf_base_history_fit']).dropna()
+    dec_odds = pd.read_csv(f"https://feeds.datagolf.com/betting-tools/outrights?tour=pga&market={market_type}&odds_format=decimal&file_format=csv&key={dg_key}",usecols=['player_name','datagolf_base_history_fit'])
 
     # merge
-    df = dg_odds.merge(dec_odds,left_index=True, right_index=True).rename(
-                columns={
-                    # 'player_name':'player',
-                    'datagolf_base_history_fit':'real_odds',
-                    '0_x':'agg_line',
-                    '0_y':'agg_dec'
-                    }
-                    )
-    
+    df = dg_odds.merge(dec_odds,left_index=True, right_index=True).T.drop_duplicates().T
+
+    df.columns = ['player_name','real_odds','agg_line','euro_line']
+    df = df.dropna()
+
     df['implied_prob'] = df['real_odds'].apply(implied_probability)
-    df['ev'] = df['implied_prob'] * df['agg_dec'] -1
+    df['ev'] = df['implied_prob'] * df['euro_line'] -1
     df = df[['player_name','real_odds','agg_line','ev']].convert_dtypes().round(2)
-
-    df['agg_line'] = df['agg_line'].astype(int)
-
-    df['real_odds'] = df['real_odds'].dropna().apply(plus_prefix)
-    df['agg_line'] = df['agg_line'].dropna().apply(plus_prefix)
 
     return df

@@ -4,7 +4,7 @@ import numpy as np
 import streamlit as st
 import altair as alt
 
-from utils import get_ev_table, fix_names
+from utils import get_ev_table, fix_names, plus_prefix
 
 # Streamlit configs
 st.set_page_config(
@@ -33,6 +33,9 @@ def main():
     # fix names and column headers
     df['player_name'] = fix_names(df)
     df.columns = ['Player','Odds','Agg','EV']
+
+    df['Odds'] = df['Odds'].apply(plus_prefix)
+    df['Agg'] = df['Agg'].apply(plus_prefix)
 
     styled_df = df.style.background_gradient(cmap="gist_heat", subset=['EV']).format(precision=2)
     return styled_df
