@@ -14,7 +14,7 @@ st.set_page_config(page_title='ylBets',
 config = {'displayModeBar': False}
 
 #altair configs
-alt.themes.enable("dark")
+# alt.themes.enable("dark")
 
 usecols = ['market','player_name','datagolf_base_history_fit','draftkings','fanduel','betmgm']
 
