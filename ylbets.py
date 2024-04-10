@@ -5,6 +5,7 @@ import streamlit as st
 import altair as alt
 
 from utils import get_ev_table, fix_names
+
 dg_key = "e297e933c3ad47d71ec1626c299e"
 
 # Streamlit configs
