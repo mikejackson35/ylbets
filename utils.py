@@ -4,6 +4,7 @@ import numpy as np
 import streamlit as st
 
 dg_key = st.secrets.dg_key
+dg_key = "e297e933c3ad47d71ec1626c299e"
 
 names_dict = {'Matt Fitzpatrick': 'Matthew Fitzpatrick',
     'Si Kim': 'Si Woo Kim',
