@@ -62,6 +62,8 @@ ev = dec_odds[['market','player_name','fanduel_ev','draftkings_ev','betmgm_ev']]
 # merge
 
 odds = pd.merge(american_odds,ev,how='left',on=['market','player_name']).round(2)
+
+
 odds = odds[['market','player_name','datagolf_base_history_fit','fanduel','fanduel_ev','draftkings','draftkings_ev','betmgm','betmgm_ev']].convert_dtypes()
 odds.rename(columns={'datagolf_base_history_fit':'real_odds'}, inplace=True)
 
@@ -94,6 +96,15 @@ def fix_names(df):
     names[1] = names[1].str.rstrip(",")
     names['player'] = names[1] + " " + names[0]
 
+    names['player'] = np.where(names['player']=='Matt Fitzpatrick', 'Matthew Fitzpatrick', names['player'])
+    names['player'] = np.where(names['player']=='Si Kim', 'Si Woo Kim', names['player'])
+    names['player'] = np.where(names['player']=='Min Lee', 'Min Woo Lee', names['player'])
+    names['player'] = np.where(names['player']=='Byeong An', 'Byeong Hun An', names['player'])
+    names['player'] = np.where(names['player']=='Rooyen Van', 'Erik Van Rooyen', names['player'])
+    names['player'] = np.where(names['player']=='Vince Whaley', 'Vincent Whaley', names['player'])
+    names['player'] = np.where(names['player']=='Kevin Yu', 'kevin Yu', names['player'])
+    names['player'] = np.where(names['player']=='Kyounghoon Lee', 'Kyoung-Hoon Lee', names['player'])
+
     return names.player
 
 odds['player_name'] = fix_names(odds)
@@ -106,11 +117,6 @@ market = st.selectbox(
 )
 
 odds = odds[odds.Market==market].dropna()
-
-def df_style(val):
-    return "font-weight: bold"
-
-
 
 styled_odds = odds.style.background_gradient(cmap="gist_heat", subset=['FD EV','DK EV','BetMGM EV']).format(precision=2)#.applymap(df_style,subset=['Odds'])
 

@@ -3,9 +3,8 @@ import plotly.express as px
 import numpy as np
 import streamlit as st
 import altair as alt
-from utils import fetch_odds, calculate_ev, plus_prefix, fix_names
+from utils import fetch_odds, plus_prefix, fix_names,calc_ev
 
-dg_key = "e297e933c3ad47d71ec1626c299e"
 
 # Streamlit configs
 st.set_page_config(
@@ -20,29 +19,39 @@ config = {'displayModeBar': False}
 #altair configs
 alt.themes.enable("dark")
 
-odds = fetch_odds('win')
-odds = pd.concat([odds, fetch_odds('top_5'), fetch_odds('top_10'), fetch_odds('top_20')]).dropna()
+dg_key = "e297e933c3ad47d71ec1626c299e"
 
-odds.rename(columns={'datagolf_base_history_fit':'real_odds'},inplace=True)
-odds['player_name'] = fix_names(odds)
+market_type = st.selectbox(
+    'Choose Betting Market',
+    ('win','top_5','top_10','top_20')
+)
 
-odds = calculate_ev(odds)
+# get aggregate line for each golfer
+books = ['betmgm', 'betfair', 'fanduel', 'draftkings', 'bovada',
+       'williamhill', 'betonline', 'betcris', 'unibet', 'caesars', 'bet365',
+       'betway', 'pinnacle', 'skybet', 'pointsbet']
+agg_odds = fetch_odds(market_type).dropna().T.mean().round(0).to_frame()
 
-odds = odds[['market', 'player_name', 'real_odds', 'fanduel','fanduel_ev', 'draftkings','draftkings_ev', 'betmgm','betmgm_ev']].convert_dtypes()
+# get datagolf line for each golfer
+url = f"https://feeds.datagolf.com/betting-tools/outrights?tour=pga&market={market_type}&odds_format=american&file_format=csv&key={dg_key}"
+dg_odds = pd.read_csv(url,usecols=['player_name','datagolf_base_history_fit']).dropna()
 
-odds['real_odds'] = odds['real_odds'].dropna().apply(plus_prefix)
-odds['fanduel'] = odds['fanduel'].dropna().apply(plus_prefix)
-odds['draftkings'] = odds['draftkings'].dropna().apply(plus_prefix)
-odds['betmgm'] = odds['betmgm'].dropna().apply(plus_prefix)
+# merge
+df = dg_odds.merge(agg_odds,left_index=True, right_index=True).rename(
+            columns={'datagolf_base_history_fit':'real_odds',0:'agg_line'})
 
-odds['market'] = odds['market'].replace({'win': 'Win', 'top_5': 'Top 5', 'top_10': 'Top 10', 'top_20': 'Top 20'})
+# add expected value column
+df = calc_ev(df)
 
-odds.columns = ['Market','Player','True Odds','FD','FD EV','DK','DK EV','MGM','MGM EV']
+# flip names to first,last
+df['player_name'] = fix_names(df)
 
-# Display
-market = st.selectbox('Choose Betting Market', ('Win', 'Top 5', 'Top 10', 'Top 20'))
+# rename columns
+df.columns = ['Player','Real','Books', 'EV']
 
-odds = odds[odds.Market==market].dropna()
-styled_odds = odds.style.background_gradient(cmap="gist_heat", subset=['FD EV', 'DK EV', 'MGM EV']).format(precision=2)
+# style
+df['Real'] = df['Real'].apply(plus_prefix)
+df['Books'] = df['Books'].apply(plus_prefix)
+styled_df = df.style.background_gradient(cmap="gist_heat").format(precision=2)
 
-st.dataframe(styled_odds, hide_index=True, height=2000, use_container_width=True, column_config={'Market': None})
+st.dataframe(styled_df, hide_index=True, height=2000,use_container_width=True)
