@@ -62,7 +62,7 @@ def get_ev_table(market_type):
     dg_odds = pd.merge(real_odds, agg_lines, left_index=True, right_index=True) 
 
     # dg decimal odds for calculating ev
-    dec_odds = pd.read_csv(f"https://feeds.datagolf.com/betting-tools/outrights?tour=pga&market={market_type}&odds_format=decimal&file_format=csv&key={dg_key}",usecols=books).T.mean().to_frame()
+    dec_odds = pd.read_csv(f"https://feeds.datagolf.com/betting-tools/outrights?tour=pga&market={market_type}&odds_format=decimal&file_format=csv&key={dg_key}",usecols=['player_name','datagolf_base_history_fit']).dropna()
 
     # merge
     df = dg_odds.merge(dec_odds,left_index=True, right_index=True).rename(

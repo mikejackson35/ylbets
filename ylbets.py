@@ -6,8 +6,6 @@ import altair as alt
 
 from utils import get_ev_table, fix_names
 
-dg_key = "e297e933c3ad47d71ec1626c299e"
-
 # Streamlit configs
 st.set_page_config(
     page_title='ylBets',
@@ -21,7 +19,7 @@ config = {'displayModeBar': False}
 #altair configs
 alt.themes.enable("dark")
 
-dg_key = st.secrets.dg_key
+# dg_key = st.secrets.dg_key
 
 market_type = st.selectbox(
     'Choose Betting Market',
