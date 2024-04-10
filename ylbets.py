@@ -3,6 +3,7 @@ import plotly.express as px
 import numpy as np
 import streamlit as st
 import altair as alt
+import matplotlib.pyplot as plt
 
 #streamlit configs
 st.set_page_config(page_title='ylBets',
@@ -61,7 +62,7 @@ ev = dec_odds[['market','player_name','fanduel_ev','draftkings_ev','betmgm_ev']]
 # merge
 
 odds = pd.merge(american_odds,ev,how='left',on=['market','player_name']).round(2)
-odds = odds[['market','player_name','datagolf_base_history_fit','fanduel','fanduel_ev','draftkings','draftkings_ev','betmgm','betmgm_ev']]
+odds = odds[['market','player_name','datagolf_base_history_fit','fanduel','fanduel_ev','draftkings','draftkings_ev','betmgm','betmgm_ev']].convert_dtypes()
 odds.rename(columns={'datagolf_base_history_fit':'real_odds'}, inplace=True)
 
 def plus_prefix(a):
