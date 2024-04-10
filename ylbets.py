@@ -3,8 +3,8 @@ import plotly.express as px
 import numpy as np
 import streamlit as st
 import altair as alt
+
 from utils import get_ev_table, fix_names
-import constants as c
 
 
 # Streamlit configs
