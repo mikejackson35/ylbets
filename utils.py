@@ -26,7 +26,7 @@ def fix_names(df):
     names = df['player_name'].str.split(expand=True)                  
     names[0] = names[0].str.rstrip(",")
     names[1] = names[1].str.rstrip(",")
-    names['player'] = names[1] + " " + names[0]
+    names['player_name'] = names[1] + " " + names[0]
 
     corrections = {
     'Matt Fitzpatrick': 'Matthew Fitzpatrick',
