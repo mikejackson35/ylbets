@@ -40,7 +40,7 @@ def fix_names(df):
 }
 
     for incorrect_name, correct_name in corrections.items():
-        names['player_name'] = np.where(names['player_name'] == incorrect_name, correct_name, names['player'])
+        names['player_name'] = np.where(names['player_name'] == incorrect_name, correct_name, names['player_name'])
 
     # names['player_name'] = np.where(names['player_name']=='Matt Fitzpatrick', 'Matthew Fitzpatrick', names['player'])
     # names['player_name'] = np.where(names['player_name']=='Si Kim', 'Si Woo Kim', names['player'])
