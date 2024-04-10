@@ -38,4 +38,4 @@ def main():
     styled_df = df.style.background_gradient(cmap="gist_heat", subset=['EV']).format(precision=2)
     return styled_df
 
-st.dataframe(main(), hide_index=True, height=3000,use_container_width=True, column_config='Agg Line':False)
+st.dataframe(main(), hide_index=True, height=3000,use_container_width=True, column_config={'Agg Line':False})
