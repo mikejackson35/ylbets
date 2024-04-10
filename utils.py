@@ -92,6 +92,6 @@ def get_ev_table(market_type):
 
     df['real_odds'] = df['real_odds'].dropna().apply(plus_prefix)
     df['agg_line'] = df['agg_line'].dropna().apply(plus_prefix)
-    df['ev'] = df['ev'].dropna().apply(plus_prefix)
+    # df['ev'] = df['ev'].dropna().apply(plus_prefix)
 
     return df
