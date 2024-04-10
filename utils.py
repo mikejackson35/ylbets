@@ -3,8 +3,6 @@ import plotly.express as px
 import numpy as np
 import streamlit as st
 
-import constants as c
-
 dg_key = st.secrets.dg_key
 
 def implied_probability(moneyline_odds):
@@ -62,19 +60,19 @@ def plus_prefix(a):
 
 def get_ev_table(market_type):
     # get datagolf line for each golfer
-    url = c.URL_AM
+    url = f"https://feeds.datagolf.com/betting-tools/outrights?tour=pga&market={market_type}&odds_format=american&file_format=csv&key={dg_key}"
     dg_odds = pd.read_csv(url,usecols=['player_name','datagolf_base_history_fit']).dropna()
 
     books = ['betmgm', 'betfair', 'fanduel', 'draftkings', 'bovada',
         'williamhill', 'betonline', 'unibet', 'bet365',
         'betway', 'skybet', 'pointsbet']
 
-    url = c.URL_AM
+    url = f"https://feeds.datagolf.com/betting-tools/outrights?tour=pga&market={market_type}&odds_format=american&file_format=csv&key={dg_key}"
     am_odds = pd.read_csv(url,usecols=books).T.mean().to_frame()
 
     dg_odds = dg_odds.merge(am_odds,left_index=True, right_index=True)
 
-    url = c.URL_DEC
+    url = f"https://feeds.datagolf.com/betting-tools/outrights?tour=pga&market={market_type}&odds_format=decimal&file_format=csv&key={dg_key}"
     dec_odds = pd.read_csv(url,usecols=books).T.mean().to_frame()
 
     df = dg_odds.merge(dec_odds,left_index=True, right_index=True).rename(
