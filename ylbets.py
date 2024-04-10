@@ -33,9 +33,9 @@ def main():
 
     # fix names and column headers
     df['player_name'] = fix_names(df)
-    df.columns = ['Player','Real Odds','Agg Line','EV']
+    df.columns = ['Player','Odds','Agg','EV']
 
     styled_df = df.style.background_gradient(cmap="gist_heat", subset=['EV']).format(precision=2)
     return styled_df
 
-st.dataframe(main(), hide_index=True, height=3000,use_container_width=True, column_config={'Agg Line':None})
+st.dataframe(main(), hide_index=True, height=3000,use_container_width=True)#, column_config={'Agg Line':None})
