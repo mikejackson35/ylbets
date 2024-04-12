@@ -45,7 +45,7 @@ def main():
 
 ## USER INTERFACE
 # details dropdown
-stoggle('detail',
+stoggle('click for details',
         """<br>
         Odds = real odds per datagolf.com<br>
         AGG = aggregate line across all books<br>
