@@ -1,8 +1,18 @@
-/* For Removing download icon on dataframe  */
+/* removes download icon from st.dataframe  */
 [data-testid="stElementToolbar"] {
     display: none;
 }
 
-MainMenu {visibility: hidden;}
-footer {visibility: hidden;}
-header {visibility: hidden;}
+
+/* streamlit display options */
+MainMenu {
+    visibility: hidden;
+}
+
+footer {
+    visibility: hidden;
+}
+
+header {
+    visibility: hidden;
+}

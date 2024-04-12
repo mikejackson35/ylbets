@@ -9,7 +9,7 @@ from utils import get_ev_table, plus_prefix
 # Streamlit configs
 st.set_page_config(
     page_title='ylbets',
-    # page_icon='assets/Nevil.png',
+    page_icon='assets/yl.jpeg',
     layout='centered'
     )
 
