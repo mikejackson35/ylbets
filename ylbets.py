@@ -8,7 +8,7 @@ from utils import get_ev_table, plus_prefix
 
 # Streamlit configs
 st.set_page_config(
-    page_title='ylBets',
+    page_title='ylbets',
     # page_icon='assets/Nevil.png',
     layout='centered'
     )
@@ -23,7 +23,7 @@ alt.themes.enable("dark")
 title_placeholder = st.empty()
 
 market_type = st.selectbox(
-    'Choose Betting Market',
+    'Choose Market',
     ('win','top_5','top_10','top_20')
 )
 
