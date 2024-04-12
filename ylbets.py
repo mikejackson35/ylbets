@@ -48,4 +48,4 @@ def main():
 with title_placeholder:
     st.subheader('ylbets')
 
-st.dataframe(main(), hide_index=True, height=3000,use_container_width=True)#, column_config={'Agg Line':None})
+st.dataframe(main(), hide_index=True, height=3000)#,use_container_width=True)#, column_config={'Agg Line':None})
