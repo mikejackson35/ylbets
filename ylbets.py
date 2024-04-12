@@ -37,7 +37,7 @@ def main():
     df = get_ev_table(market_type)
 
     # fix column headers
-    df.columns = ['Player','Odds','Agg','EV']
+    df.columns = ['Player','Odds','EV','Agg']
 
     # add styling  (ie. plus prefixes in front of integers and color 'ev' column)
     df['Odds'] = df['Odds'].apply(plus_prefix)
@@ -51,8 +51,8 @@ def main():
 
 ph1.header('ylbets')
 ph2.write("Odds = real odds per datagolf.com")
-ph3.write("Agg = average line being offered across all sportsbooks")
-ph4.write("EV = expected value (ie. expected net profit on a 1-unit bet placed many times)")
+ph3.write("EV = expected value (ie. expected net profit on a 1-unit bet placed many times)")
+ph4.write("Agg = average line being offered across all sportsbooks")
 ph5.write("Expected Value Example - Consider the example of betting on coin flips (which, really, is not so different from betting on golf). The probability of flipping Heads or Tails is equal to 50%. Suppose a bookmaker offers +100 American odds, which implies a probability of 1/2 or 50%. Given that the implied probability is equal to the true probability of Heads, the expected value from betting on Heads is zero. If a bookmaker offered odds of -110, the expected value would be negative (-5%, or -0.05 per unit bet); if a dumb bookmaker offered odds of +110, the expected value would then be positive (+5%), and in theory a bet worth taking.")
 
 st.dataframe(main(), hide_index=True, height=3000 ,use_container_width=True)#, column_config={'Agg Line':None})

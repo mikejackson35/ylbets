@@ -70,7 +70,7 @@ def get_ev_table(market_type):
     # add expected value column and clean datatypes
     df['implied_prob'] = df['real_odds'].apply(implied_probability) 
     df['ev'] = df['implied_prob'] * df['agg_dec_line'] -1
-    df = df[['player_name','real_odds','agg_line','ev']].convert_dtypes().round(2)
+    df = df[['player_name','real_odds','ev','agg_line']].convert_dtypes().round(2)
     df['agg_line'] = df['agg_line'].astype(int)
 
     # flip first/last names
