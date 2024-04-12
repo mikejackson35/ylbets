@@ -20,6 +20,7 @@ config = {'displayModeBar': False}
 alt.themes.enable("dark")
 
 # dg_key = st.secrets.dg_key
+title_placeholder = st.empty()
 
 market_type = st.selectbox(
     'Choose Betting Market',
@@ -39,9 +40,12 @@ def main():
     df['Agg'] = df['Agg'].apply(plus_prefix)
 
     styled_df = df.style.background_gradient(
-        cmap="gist_heat", subset=['EV']
+        cmap="cividis", subset=['EV'], vmin=-.2#, gmap= -df['EV']
         ).format(precision=2)
 
     return styled_df
+
+with title_placeholder:
+    st.subheader('ylbets')
 
 st.dataframe(main(), hide_index=True, height=3000,use_container_width=True)#, column_config={'Agg Line':None})
