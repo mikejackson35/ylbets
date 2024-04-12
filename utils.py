@@ -39,8 +39,8 @@ def fix_names(list_of_player_names):
 
     # uses dictionary to correct known problem names
     # ie "Jr" or "Si Woo Kim")
-#     for incorrect_name, correct_name in names_dict.items():
-#         names['player_name'] = np.where(names['player_name'] == incorrect_name, correct_name, names['player_name'])
+    for incorrect_name, correct_name in names_dict.items():
+        names['player_name'] = np.where(names['player_name'] == incorrect_name, correct_name, names['player_name'])
 
     return names.player_name
 

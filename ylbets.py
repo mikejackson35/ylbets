@@ -4,7 +4,7 @@ import numpy as np
 import streamlit as st
 import altair as alt
 
-from utils import get_ev_table, fix_names, plus_prefix
+from utils import get_ev_table, plus_prefix
 
 # Streamlit configs
 st.set_page_config(
@@ -28,15 +28,20 @@ market_type = st.selectbox(
 
 def main():
     
+    # makes EV table for user selected market ('win', 'top5', 'top10', or 'top20')
     df = get_ev_table(market_type)
 
-    # fix names and column headers
+    # fix column headers
     df.columns = ['Player','Odds','Agg','EV']
 
+    # add styling  (ie. plus prefixes in front of integers and color 'ev' column)
     df['Odds'] = df['Odds'].apply(plus_prefix)
     df['Agg'] = df['Agg'].apply(plus_prefix)
 
-    styled_df = df.style.background_gradient(cmap="gist_heat", subset=['EV']).format(precision=2)
+    styled_df = df.style.background_gradient(
+        cmap="gist_heat", subset=['EV']
+        ).format(precision=2)
+
     return styled_df
 
 st.dataframe(main(), hide_index=True, height=3000,use_container_width=True)#, column_config={'Agg Line':None})
