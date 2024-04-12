@@ -1,0 +1,4 @@
+/* For Removing download icon on dataframe  */
+[data-testid="stElementToolbar"] {
+    display: none;
+}

@@ -13,6 +13,9 @@ st.set_page_config(
     layout='centered'
     )
 
+with open(r"styles/main.css") as f:                                                                   # css
+    st.markdown("<style>{}</style>".format(f.read()), unsafe_allow_html=True) 
+
 #plotly configs
 config = {'displayModeBar': False}
 
