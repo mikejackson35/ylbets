@@ -31,7 +31,6 @@ def main():
     df = get_ev_table(market_type)
 
     # fix names and column headers
-    df['player_name'] = fix_names(df)
     df.columns = ['Player','Odds','Agg','EV']
 
     df['Odds'] = df['Odds'].apply(plus_prefix)
