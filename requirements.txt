@@ -4,3 +4,4 @@ streamlit
 numpy
 altair
 matplotlib
+streamlit_extras
