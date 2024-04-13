@@ -47,11 +47,13 @@ def main():
 # details dropdown
 stoggle('click for details',
         """<br>
-        ODDS = real odds per datagolf.com<br>
-        AGG = aggregate line across all books<br>
-        EV = expected value (ie. expected net profit on a 1-unit bet placed many times)<br><br>
-        EV Example - Consider the classic betting on coin flips (which is not so different from betting on golf). The probability of flipping Heads or Tails is equal to 50%. Suppose a bookmaker offers +100 American odds. This implies a probability of 1/2 or 50%. Given that the 'implied' probability is equal to the 'true' probability of Heads, the Expected Value from betting on Heads is zero. If a bookmaker offered odds of -110, the expected value would be negative (-5%, or -0.05 per unit bet). In reverse, if a bad bookmaker offered odds of +110, the expected value would be positive (+5%), and in theory, a bet worth taking.
+        ODDS<br> player odds based on the datagolf.com<br> model<br><br>
+        AGG<br> avg player odds across all sportsbooks<br><br>
+        EV<br> expected net profit on a 1-unit bet placed<br> many many times.<br><br>=================================<br>GENERAL EV TARGETS<br> Win over .15<br> Top 5 over.10<br> Top 10 over .10<br> Top 20 over .05<br>
+        =================================
         """)
+        # EV Example - Consider the classic betting on coin flips (which is not so different from betting on golf). The probability of flipping Heads or Tails is equal to 50%. Suppose a bookmaker offers +100 American odds. This implies a probability of 1/2 or 50%. Given that the 'implied' probability is equal to the 'true' probability of Heads, the Expected Value from betting on Heads is zero. If a bookmaker offered odds of -110, the expected value would be negative (-5%, or -0.05 per unit bet). In reverse, if a bad bookmaker offered odds of +110, the expected value would be positive (+5%), and in theory, a bet worth taking.
+        # """)
 
 # 'ylbets title'
 title_placeholder = st.empty()
