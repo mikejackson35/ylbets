@@ -58,7 +58,7 @@ def get_ev_table(market_type):
 
     # get dg 'real' odds, industry aggregate odds in american/moneyline and euro/decimal formats
     real_odds = dg_outrights_data[['player_name','datagolf_base_history_fit']]
-    agg_lines = dg_outrights_data[books].T.mean().to_frame()
+    agg_lines = dg_outrights_data[books].dropna().T.mean().to_frame()
     agg_dec_lines = dec_odds[books].T.mean().to_frame()
 
     # merge together, fix headers, drop nulls
