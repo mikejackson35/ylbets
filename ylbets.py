@@ -19,7 +19,7 @@ with open(r"styles/main.css") as f:
     st.markdown("<style>{}</style>".format(f.read()), unsafe_allow_html=True) 
 #plotly
 config = {'displayModeBar': False}
-"#"
+# "#"
 
 def main():
     """
@@ -45,13 +45,27 @@ def main():
 
 ## USER INTERFACE
 # details dropdown
-stoggle('click for details',
-        """<br>
-        ODDS<br> player odds based on the datagolf.com<br> model<br><br>
-        AGG<br> avg player odds across all sportsbooks<br><br>
-        EV<br> expected net profit on a 1-unit bet placed<br> many many times.<br><br>=================================<br>GENERAL EV TARGETS<br> Win over .15<br> Top 5 over.10<br> Top 10 over .10<br> Top 20 over .05<br>
-        =================================
+col1,col2 = st.columns([2,1])
+with col1:
+    "#"
+    # stoggle('click for details',
+    #         """<br>
+    #         ODDS<br> player odds based on the datagolf.com<br> model<br><br>
+    #         AGG<br> avg player odds across all sportsbooks<br><br>
+    #         EV<br> expected net profit on a 1-unit bet placed
+    #         """)
+with col2:
+    stoggle('Columns',
+            """<br>
+            ODDS = player odds based on the datagolf.com model<br><br>
+            AGG = avg player odds across all sportsbooks<br><br>
+            EV = expected net profit on a 1-unit bet placed many times
+            """)
+    stoggle('General EV Targets',
+        """
+        Win over .15<br> Top 5 over.10<br> Top 10 over .10<br> Top 20 over .05<br>
         """)
+
         # EV Example - Consider the classic betting on coin flips (which is not so different from betting on golf). The probability of flipping Heads or Tails is equal to 50%. Suppose a bookmaker offers +100 American odds. This implies a probability of 1/2 or 50%. Given that the 'implied' probability is equal to the 'true' probability of Heads, the Expected Value from betting on Heads is zero. If a bookmaker offered odds of -110, the expected value would be negative (-5%, or -0.05 per unit bet). In reverse, if a bad bookmaker offered odds of +110, the expected value would be positive (+5%), and in theory, a bet worth taking.
         # """)
 
