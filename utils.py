@@ -54,11 +54,11 @@ def get_ev_table(market_type):
     # constants
     dg_outrights_data = pd.read_csv(f"https://feeds.datagolf.com/betting-tools/outrights?tour=pga&market={market_type}&odds_format=american&file_format=csv&key={dg_key}")
     dec_odds = pd.read_csv(f"https://feeds.datagolf.com/betting-tools/outrights?tour=pga&market={market_type}&odds_format=decimal&file_format=csv&key={dg_key}")
-    books = ['betmgm', 'draftkings', 'bovada', 'betway','caesars']
+    books = ['betmgm', 'draftkings','caesars']
 
     # get dg 'real' odds, industry aggregate odds in american/moneyline and euro/decimal formats
     real_odds = dg_outrights_data[['player_name','datagolf_base_history_fit']]
-    agg_lines = dg_outrights_data[books].dropna().T.mean().to_frame()
+    agg_lines = dg_outrights_data[books].T.mean().to_frame()
     agg_dec_lines = dec_odds[books].T.mean().to_frame()
 
     # merge together, fix headers, drop nulls
