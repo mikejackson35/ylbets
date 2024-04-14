@@ -49,9 +49,9 @@ def main():
 
 ## USER INTERFACE
 # details dropdown
-col1,col2,col3 = st.columns([.9,2,.6])
-with col1:
-    title_placeholder = st.empty()
+# col1,col2,col3 = st.columns([.9,2,.6])
+# with col1:
+title_placeholder = st.empty()
     # "#"
     # stoggle('click for details',
     #         """<br>
@@ -59,20 +59,20 @@ with col1:
     #         AGG<br> avg player odds across all sportsbooks<br><br>
     #         EV<br> expected net profit on a 1-unit bet placed
     #         """)
-with col2:
-    "#"
-    stoggle('info',
-            """<br>
-            ODDS = player odds based on the datagolf.com model<br><br>
-            AGG = avg player odds across all sportsbooks<br><br>
-            EV = expected net profit on a 1-unit bet placed many times
-            """)
-with col3:
-    "#"
-    stoggle('ev targets',
-        """
-        Win > .15<br> Top 5 > .10<br> Top 10 > .10<br> Top 20 > .05<br>
+# with col2:
+#     "#"
+stoggle('info',
+        """<br>
+        ODDS = player odds based on the datagolf.com model<br><br>
+        AGG = avg player odds across all sportsbooks<br><br>
+        EV = expected net profit on a 1-unit bet placed many times
         """)
+# with col3:
+#     "#"
+stoggle('ev targets',
+    """
+    Win > .15<br> Top 5 > .10<br> Top 10 > .10<br> Top 20 > .05<br>
+    """)
 
         # EV Example - Consider the classic betting on coin flips (which is not so different from betting on golf). The probability of flipping Heads or Tails is equal to 50%. Suppose a bookmaker offers +100 American odds. This implies a probability of 1/2 or 50%. Given that the 'implied' probability is equal to the 'true' probability of Heads, the Expected Value from betting on Heads is zero. If a bookmaker offered odds of -110, the expected value would be negative (-5%, or -0.05 per unit bet). In reverse, if a bad bookmaker offered odds of +110, the expected value would be positive (+5%), and in theory, a bet worth taking.
         # """)
