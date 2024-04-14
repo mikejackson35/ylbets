@@ -35,7 +35,7 @@ def fix_names(list_of_player_names):
     names = list_of_player_names.str.split(expand=True)                  
     names[0] = names[0].str.rstrip(",")
     names[1] = names[1].str.rstrip(",")
-    names['player_name'] = names[1] + " " + names[0]
+    names['player_name'] = names[1].str[0] + " " + names[0]
 
     # uses dictionary to correct known problem names
     # ie "Jr" or "Si Woo Kim")
@@ -62,7 +62,7 @@ def get_ev_table(market_type):
     agg_dec_lines = dec_odds[books].T.mean().to_frame()
 
     # merge together, fix headers, drop nulls
-    df = pd.merge(real_odds, agg_lines, left_index=True, right_index=True) 
+    df = pd.merge(real_odds, agg_lines, left_index=True, right_index=True)
     df = pd.merge(df,agg_dec_lines,left_index=True, right_index=True).T.drop_duplicates().T
     df.columns = ['player_name','real_odds','agg_line','agg_dec_line']
     df = df.dropna()
