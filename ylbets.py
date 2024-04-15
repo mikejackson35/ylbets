@@ -19,21 +19,19 @@ with open(r"styles/main.css") as f:
     st.markdown("<style>{}</style>".format(f.read()), unsafe_allow_html=True) 
 #plotly
 config = {'displayModeBar': False}
-# "#"
 
+
+## MAIN FUNCTION TO RUN THE APP
+# takes user selection of market and displays the corresponding styled dataframe
 def main():
-    """
-    INPUT:  users choice of betting market from st.selectbox
-    OUTPUT: styled DataFrame with columns 'Player', 'Odds', 'EV', & 'Agg'    
-    """
-    
-    # takes user selection and outputs un-styled dataframe with odds and ev's
+
+    # inputs user selection and outputs un-styled dataframe with live odds and ev's
     df = get_ev_table(market_type)
 
     # fix column headers
     df.columns = ['Player','Odds','EV','Agg']
 
-    # add styling  (ie. plus prefixes in front of integers and color 'ev' column)
+    # add styling  ("+" prefixes and color)
     df['Odds'] = df['Odds'].apply(plus_prefix)
     df['Agg'] = df['Agg'].apply(plus_prefix)
 
@@ -44,45 +42,30 @@ def main():
     return styled_df
 
 
-# 'ylbets title'
-# title_placeholder = st.empty()
-
 ## USER INTERFACE
+
 # details dropdown
-# col1,col2,col3 = st.columns([.9,2,.6])
-# with col1:
-# title_placeholder = st.empty()
-    # "#"
-    # stoggle('click for details',
-    #         """<br>
-    #         ODDS<br> player odds based on the datagolf.com<br> model<br><br>
-    #         AGG<br> avg player odds across all sportsbooks<br><br>
-    #         EV<br> expected net profit on a 1-unit bet placed
-    #         """)
-# with col2:
-#     "#"
 stoggle('info',
         """<br>
         ODDS = player odds based on the datagolf.com model<br><br>
         AGG = avg player odds across all sportsbooks<br><br>
         EV = expected net profit on a 1-unit bet placed many times
         """)
-# with col3:
-#     "#"
+# targets dropdown
 stoggle('ev targets',
     """
     Win > .15<br> Top 5 > .10<br> Top 10 > .10<br> Top 20 > .05<br>
     """)
 
-        # EV Example - Consider the classic betting on coin flips (which is not so different from betting on golf). The probability of flipping Heads or Tails is equal to 50%. Suppose a bookmaker offers +100 American odds. This implies a probability of 1/2 or 50%. Given that the 'implied' probability is equal to the 'true' probability of Heads, the Expected Value from betting on Heads is zero. If a bookmaker offered odds of -110, the expected value would be negative (-5%, or -0.05 per unit bet). In reverse, if a bad bookmaker offered odds of +110, the expected value would be positive (+5%), and in theory, a bet worth taking.
-        # """)
+# placeholder for title
 title_placeholder = st.empty()
-# 'ylbets title'
-# title_placeholder = st.empty()
 
 # user selectbox
 market_type = st.selectbox('Choose Market',
                            ('win','top_5','top_10','top_20'))
 
+# title
 title_placeholder.header('ylbets :eggplant:')
+
+# display dataframe
 st.dataframe(main(), hide_index=True, height=3000 ,use_container_width=True)#, column_config={'Agg Line':None})
