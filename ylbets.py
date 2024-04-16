@@ -30,7 +30,7 @@ def main():
 
     # fix column headers
     # df.columns = ['Player','Odds','EV','Agg']
-    df.columns = ['Player','Odds','EV','Target']
+    df.columns = ['Player','Odds','Books','EV','Target']
 
     # add styling  ("+" prefixes and color)
     df['Odds'] = df['Odds'].apply(plus_prefix)
