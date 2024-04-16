@@ -55,8 +55,8 @@ stoggle('info',
 # targets dropdown
 stoggle('ev targets',
     """<br>
-    Win  > .15<br>
-    Top 5 > .10<br>
+    Top  1 > .15<br>
+    Top  5 > .10<br>
     Top 10 > .10<br>
     Top 20 > .05<br>
     """)
