@@ -98,7 +98,7 @@ def get_ev_table(market_type):
     df['player_name'] = fix_names(df['player_name'])
 
     # column names
-    df = df[['player_name','am_odds','ag_am','ev','target_american']]
+    df = df[['player_name','target_american','ev','am_odds','ag_am']]
     df = df.convert_dtypes().round(2)
 
     return df
