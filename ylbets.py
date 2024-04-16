@@ -37,7 +37,7 @@ def main():
     df['Target'] = df['Target'].apply(plus_prefix)
 
     styled_df = df.style.background_gradient(
-        cmap="cividis", subset=['EV'], vmin=-.5#, gmap= -df['EV']
+        cmap="cividis", subset=['EV'], vmin=-.4#, gmap= -df['EV']
         ).format(precision=2)
 
     return styled_df
@@ -48,8 +48,8 @@ def main():
 # details dropdown
 stoggle('info',
         """<br>
-        TARGET = the line you want, or better, in order to be considered a value by datagolf.com<br><br>
-        EV = use this column to sort when looking for value. On average, the most yellow players are the undervalued most across all sportsbooks. It's likely that yours is similar.
+        TARGET = datagolf real odds + the ev target. Example, the datagolf model has real odds on Scottie Scheffler to Win at +550. As a general rule, we're looking for 15% expected value on a Win bet. Therefore we want +650 or better (the Target). If made many times at +650, this wager has an expected net profit of 15%.<br><br>
+        EV = the expected value for the best line found across all sportsbooks. Use this to help find value. The better values across these books should be fairly similiar to the value at yours. 
         """)
 # targets dropdown
 stoggle('ev targets',
