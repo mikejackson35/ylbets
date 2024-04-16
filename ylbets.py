@@ -72,4 +72,5 @@ market_type = st.selectbox('Choose Market',
 title_placeholder.header('ylbets :eggplant:')
 
 # display dataframe
-st.dataframe(main(), hide_index=True, height=3000 ,use_container_width=True)#, column_config={'Odds':None})
+st.dataframe(main(), hide_index=True, height=3000 ,use_container_width=True, column_config={'Odds':None,
+                                                                                            'Books':None})
