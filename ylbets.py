@@ -48,9 +48,8 @@ def main():
 # details dropdown
 stoggle('info',
         """<br>
-        ODDS = a players odds based on the datagolf.com model<br><br>
-        AGG = avg player odds across all sportsbooks<br><br>
-        EV = expected net profit on a 1-unit bet placed many times
+        TARGET = the line you want, or better, in order to be considered a value by datagolf.com<br><br>
+        EV = use this column to sort when looking for value. On average, the most yellow players are the undervalued most across all sportsbooks. It's likely that yours is similar.
         """)
 # targets dropdown
 stoggle('ev targets',
