@@ -29,11 +29,12 @@ def main():
     df = get_ev_table(market_type)
 
     # fix column headers
-    df.columns = ['Player','Odds','EV','Agg']
+    # df.columns = ['Player','Odds','EV','Agg']
+    df.columns = ['Player','Odds','EV','Target']
 
     # add styling  ("+" prefixes and color)
     df['Odds'] = df['Odds'].apply(plus_prefix)
-    df['Agg'] = df['Agg'].apply(plus_prefix)
+    df['Target'] = df['Target'].apply(plus_prefix)
 
     styled_df = df.style.background_gradient(
         cmap="cividis", subset=['EV'], vmin=-.2#, gmap= -df['EV']
@@ -47,13 +48,13 @@ def main():
 # details dropdown
 stoggle('info',
         """<br>
-        ODDS = player odds based on the datagolf.com model<br><br>
+        ODDS = a players odds based on the datagolf.com model<br><br>
         AGG = avg player odds across all sportsbooks<br><br>
         EV = expected net profit on a 1-unit bet placed many times
         """)
 # targets dropdown
 stoggle('ev targets',
-    """
+    """<br>
     Win > .15<br> Top 5 > .10<br> Top 10 > .10<br> Top 20 > .05<br>
     """)
 

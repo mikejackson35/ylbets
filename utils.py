@@ -4,7 +4,7 @@ import numpy as np
 import streamlit as st
 
 dg_key = "e297e933c3ad47d71ec1626c299e"
-market_type = 'top_20'
+# market_type = 'top_20'
 
 names_dict = {'Matt Fitzpatrick': 'Matthew Fitzpatrick',
     'Si Kim': 'Si Woo Kim',
@@ -49,31 +49,56 @@ def plus_prefix(a):
         return f"+{a}"
     return a
 
+market_target_dict = {
+    'win':1.15,
+    'top_5': 1.1,
+    'top_10': 1.1,
+    'top_20': 1.05
+    }
+
+
+def convert_euro_to_american(dec_odds):
+    if dec_odds >= 2:
+        return (dec_odds - 1) * 100
+    else:
+        return -100 / (dec_odds-1)
+        
+
+
 def get_ev_table(market_type):
 
-    # constants
-    dg_outrights_data = pd.read_csv(f"https://feeds.datagolf.com/betting-tools/outrights?tour=pga&market={market_type}&odds_format=american&file_format=csv&key={dg_key}")
-    dec_odds = pd.read_csv(f"https://feeds.datagolf.com/betting-tools/outrights?tour=pga&market={market_type}&odds_format=decimal&file_format=csv&key={dg_key}")
+    # api calls
+    dg_american = pd.read_csv(f"https://feeds.datagolf.com/betting-tools/outrights?tour=pga&market={market_type}&odds_format=american&file_format=csv&key={dg_key}")
+    dg_decimal = pd.read_csv(f"https://feeds.datagolf.com/betting-tools/outrights?tour=pga&market={market_type}&odds_format=decimal&file_format=csv&key={dg_key}")
     books = ['fanduel','bet365','pointsbet','draftkings','caesars']
 
-    # get dg 'real' odds, industry aggregate odds in american/moneyline and euro/decimal formats
-    real_odds = dg_outrights_data[['player_name','datagolf_base_history_fit']]
-    agg_lines = dg_outrights_data[books].T.mean().to_frame()
-    agg_dec_lines = dec_odds[books].T.mean().to_frame()
+    # grab american and euro DataGolf odds for each player and combine
+    am_odds = dg_american[['player_name','datagolf_base_history_fit']].rename(columns={'datagolf_base_history_fit':'am_odds_dg'})
+    dec_odds = dg_decimal[['player_name','datagolf_base_history_fit']].rename(columns={'datagolf_base_history_fit':'dec_odds_dg'})
+    dg_odds = pd.merge(am_odds,dec_odds, on='player_name')
 
-    # merge together, fix headers, drop nulls
-    df = pd.merge(real_odds, agg_lines, left_index=True, right_index=True)
-    df = pd.merge(df,agg_dec_lines,left_index=True, right_index=True).T.drop_duplicates().T
-    df.columns = ['player_name','real_odds','agg_line','agg_dec_line']
-    df = df.dropna()
+    # get avg sportbooks line for each player in american and euro formats
+    agg_am = dg_american[books].T.mean().to_frame()
+    agg_dec = dg_decimal[books].T.mean().to_frame()
 
-    # add expected value column and clean datatypes
-    df['implied_prob'] = df['real_odds'].apply(implied_probability) 
-    df['ev'] = df['implied_prob'] * df['agg_dec_line'] -1
-    df = df[['player_name','real_odds','ev','agg_line']].convert_dtypes().round(2)
-    df['agg_line'] = df['agg_line'].astype(int)
+    # combine and fix column names
+    df = pd.merge(dg_odds, agg_am, left_index=True, right_index=True)
+    df = pd.merge(df,agg_dec,left_index=True, right_index=True).T.drop_duplicates().T
+    df.columns = ['player_name', 'am_odds','dec_odds','ag_am','ag_dec']
 
-    # flip first/last names
+    # convert target euro odds to american for display
+    df['market_type'] = market_type
+    df['target_euro'] = df['market_type'].map(market_target_dict) * df['dec_odds']
+    df['target_american'] = df['target_euro'].apply(convert_euro_to_american).astype(int)
+
+    # add expected value column (for color)
+    df['ev'] = (1 / df['dec_odds']) * df['ag_dec'] -1
+
+    # flip first/last player names
     df['player_name'] = fix_names(df['player_name'])
+
+    # column names
+    df = df[['player_name','am_odds','ev','target_american']]
+    df = df.convert_dtypes().round(2)
 
     return df
