@@ -69,10 +69,10 @@ def get_our_plays(our_plays, url, columns):
         df = pd.read_csv(url, usecols=columns).convert_dtypes()
 
         # Convert 'last_update' to datetime and extract time component
-        df['updated'] = pd.to_datetime(df['last_update']).dt.strftime('%H:%M')
+        # df['updated'] = pd.to_datetime(df['last_update']).dt.strftime('%H:%M')
 
-        # Drop 'last_update' column
-        df.drop(columns='last_update', inplace=True)
+        # # Drop 'last_update' column
+        # df.drop(columns='last_update', inplace=True)
 
         # Format 'top_10' column as percentage
         df['top_10'] = ((df['top_10'] * 100).round()).astype(int).astype(str) + '%'
