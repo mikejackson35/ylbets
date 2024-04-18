@@ -62,6 +62,28 @@ def convert_euro_to_american(dec_odds):
         return (dec_odds - 1) * 100
     else:
         return -100 / (dec_odds-1)
+    
+def get_our_plays(our_plays, url, columns):
+    try:
+        # Read CSV from URL, selecting specific columns
+        df = pd.read_csv(url, usecols=columns).convert_dtypes()
+
+        # Convert 'last_update' to datetime and extract time component
+        df['updated'] = pd.to_datetime(df['last_update']).dt.strftime('%H:%M')
+
+        # Drop 'last_update' column
+        df.drop(columns='last_update', inplace=True)
+
+        # Format 'top_10' column as percentage
+        df['top_10'] = ((df['top_10'] * 100).round()).astype(int).astype(str) + '%'
+
+        # Filter DataFrame based on 'our_plays'
+        plays = df[df['player_name'].isin(our_plays)].round(2)
+        return plays
+
+    except Exception as e:
+        print("An error occurred:", e)
+        return None
         
 
 
