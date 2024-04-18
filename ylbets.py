@@ -60,6 +60,7 @@ stoggle('ev targets',
     Top 20 > .05<br>
     """)
 
+
 # placeholder for title
 title_placeholder = st.empty()
 
