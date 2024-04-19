@@ -121,6 +121,9 @@ def get_ev_table(market_type):
 
     # column names
     df = df[['player_name','target_american','ev','am_odds','ag_am']]
-    df = df#.convert_dtypes()
+    df = df.dropna().astype(dtype={'target_american':'int',
+                      'ev':'float',
+                      'am_odds':'int',
+                      'ag_am':'int'})
 
     return df
