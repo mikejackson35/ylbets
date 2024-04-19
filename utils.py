@@ -100,8 +100,8 @@ def get_ev_table(market_type):
     dg_odds = pd.merge(am_odds,dec_odds, on='player_name')
 
     # get avg sportbooks line for each player in american and euro formats
-    agg_am = dg_american[books].T.max().to_frame()
-    agg_dec = dg_decimal[books].T.max().to_frame()
+    agg_am = dg_american[books].fillna(0).T.max().to_frame()
+    agg_dec = dg_decimal[books].fillna(0).T.max().to_frame()
 
     # combine and fix column names
     df = pd.merge(dg_odds, agg_am, left_index=True, right_index=True)
