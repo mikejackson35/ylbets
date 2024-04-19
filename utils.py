@@ -111,7 +111,7 @@ def get_ev_table(market_type):
     # convert target euro odds to american for display
     df['market_type'] = market_type
     df['target_euro'] = df['market_type'].map(market_target_dict) * df['dec_odds']
-    df['target_american'] = df['target_euro'].apply(convert_euro_to_american).astype(int)
+    df['target_american'] = df['target_euro'].apply(convert_euro_to_american)#.astype(int)
 
     # add expected value column (for color)
     df['ev'] = (1 / df['dec_odds']) * df['ag_dec'] -1
