@@ -33,7 +33,9 @@ def main():
     df.columns = ['Player','Target','EV','Odds','Books']
 
     # add styling  ("+" prefixes and color)
+    df['Odds'] = df['Odds'].astype('int')
     df['Odds'] = df['Odds'].apply(plus_prefix)
+    df['Target'] = df['Target'].astype('int')
     df['Target'] = df['Target'].apply(plus_prefix)
 
     styled_df = df.style.format(precision=2).background_gradient(
