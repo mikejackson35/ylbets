@@ -34,7 +34,7 @@ def main():
 
     # add styling  ("+" prefixes and color)
     df['Odds'] = df['Odds'].apply(plus_prefix)
-    df['Target'] = df['Target'].astype(int).apply(plus_prefix)
+    df['Target'] = df['Target'].apply(plus_prefix)
 
     styled_df = df.style.background_gradient(
         cmap="cividis", subset=['EV'], vmin=-.1#, gmap= -df['EV']
