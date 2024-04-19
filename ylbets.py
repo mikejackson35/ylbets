@@ -36,9 +36,9 @@ def main():
     df['Odds'] = df['Odds'].apply(plus_prefix)
     df['Target'] = df['Target'].apply(plus_prefix)
 
-    styled_df = df.style.background_gradient(
+    styled_df = df.style..format(precision=2).background_gradient(
         cmap="cividis", subset=['EV'], vmin=-.1#, gmap= -df['EV']
-        ).format(precision=2)
+        )#.format(precision=2)
 
     return styled_df
 
