@@ -72,11 +72,11 @@ market_type = st.selectbox('Choose Market',
 title_placeholder.header('ylbets :eggplant:')
 
 # Example usage:
-our_plays = ['Hodges, Lee','Kirk, Chris','Putnam, Andrew','Eckroat, Austin']  # Your list of player names
-url = "https://feeds.datagolf.com/preds/in-play?tour=pga&dead_heat=no&odds_format=percent&file_format=csv&key=e297e933c3ad47d71ec1626c299e"
-columns = ['player_name', 'top_10']
+# our_plays = ['Hodges, Lee','Kirk, Chris','Putnam, Andrew','Eckroat, Austin']  # Your list of player names
+# url = "https://feeds.datagolf.com/preds/in-play?tour=pga&dead_heat=no&odds_format=percent&file_format=csv&key=e297e933c3ad47d71ec1626c299e"
+# columns = ['player_name', 'top_10']
 
-st.dataframe(get_our_plays(our_plays, url, columns), hide_index=True,use_container_width=True)
+# st.dataframe(get_our_plays(our_plays, url, columns), hide_index=True,use_container_width=True)
 
 # display dataframe
 st.dataframe(main(), hide_index=True, height=3000 ,use_container_width=True, column_config={'Odds':None,
