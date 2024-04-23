@@ -40,8 +40,7 @@ def main():
     df['Target'] = df['Target'].apply(lambda x: x if x < 0 else f"+{x}")
 
     styled_df = df.style.format(precision=2).background_gradient(
-        cmap="cividis", subset=['EV'], vmin=-.1#, gmap= -df['EV']
-        )#.format(precision=2)
+        cmap="cividis", subset=['EV'], vmin=-.1)
 
     return styled_df
 
