@@ -33,8 +33,10 @@ def main():
     df.columns = ['Player','Target','EV','Odds','Books']
 
     # add styling  ("+" prefixes and color)
-    df['Odds'] = df['Odds'].apply(plus_prefix)
-    df['Target'] = df['Target'].apply(plus_prefix)
+    df['Odds'] = df['Odds'].apply(lambda x: x if x < 0 else f"+{x}")
+    # df['Odds'] = df['Odds'].apply(plus_prefix)
+    # df['Target'] = df['Target'].apply(plus_prefix)
+    df['Target'] = df['Target'].apply(lambda x: x if x < 0 else f"+{x}")
 
     styled_df = df.style.format(precision=2).background_gradient(
         cmap="cividis", subset=['EV'], vmin=-.1#, gmap= -df['EV']
