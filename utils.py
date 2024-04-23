@@ -4,9 +4,7 @@ import numpy as np
 import streamlit as st
 import secrets
 
-# dg_key = "e297e933c3ad47d71ec1626c299e"
 dg_key = st.secrets.dg_key
-# market_type = 'top_20'
 
 names_dict = {'Matt Fitzpatrick': 'Matthew Fitzpatrick',
     'Si Kim': 'Si Woo Kim',
