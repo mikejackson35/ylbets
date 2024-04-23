@@ -49,10 +49,21 @@ def main():
 
 # details dropdown
 stoggle('info',
-        """<br>
-        TARGET = datagolf real odds + the ev target. Example, the datagolf model has real odds on Scottie Scheffler to Win at +550. As a general rule, we're looking for 15% expected value on a Win bet. Therefore we want +650 or better (the Target). If made many times at +650, this wager has an expected net profit of 15%.<br><br>
-        EV = the expected value for the best line found across all sportsbooks. Use this to help find value. The better values across these books should be fairly similiar to the value at yours. 
-        """)
+        """
+        ----------------------------------------------------------------------------------------------------------------------------
+        <br>
+        TARGET - real odds + the ev target<br>
+        <br>
+        i.e. the datagolf model has real odds on Scottie Scheffler to Win at +550. As a general rule,<br>
+        we're looking for 15% expected value on a Win bet. Therefore we want +650 or better <br>
+        (the Target). If placed many times at +650, this wager has an expected net profit of 15%.<br>
+        -----------------------------------------------------------------------------------------------------------------------------
+        <br>
+        EV - expected value for the best line found across all sportsbooks.<br>
+        <br>
+        Use this column to sort and find the best values at your book<br>
+        ----------------------------------------------------------------------------------------------------------------------------
+        <br>""")
 # targets dropdown
 stoggle('ev targets',
     """<br>
