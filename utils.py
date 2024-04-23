@@ -92,7 +92,7 @@ def get_ev_table(market_type):
     # api calls
     dg_american = pd.read_csv(f"https://feeds.datagolf.com/betting-tools/outrights?tour=pga&market={market_type}&odds_format=american&file_format=csv&key={dg_key}")
     dg_decimal = pd.read_csv(f"https://feeds.datagolf.com/betting-tools/outrights?tour=pga&market={market_type}&odds_format=decimal&file_format=csv&key={dg_key}")
-    books = ['bet365','betmgm','draftkings']
+    books = ['bet365']
 
     # grab american and euro DataGolf odds for each player and combine
     am_odds = dg_american[['player_name','datagolf_base_history_fit']]
