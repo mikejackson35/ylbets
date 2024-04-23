@@ -5,7 +5,7 @@ import streamlit as st
 import altair as alt
 
 from streamlit_extras.stoggle import stoggle
-from utils import get_ev_table, plus_prefix, get_our_plays
+from utils import get_ev_table, get_our_plays
 
 ## DISPLAY CONFIGS
 # Streamlit
@@ -29,13 +29,10 @@ def main():
     df = get_ev_table(market_type)
 
     # fix column headers
-    # df.columns = ['Player','Odds','EV','Agg']
     df.columns = ['Player','Target','EV','Odds','Books']
 
     # add styling  ("+" prefixes and color)
     df['Odds'] = df['Odds'].apply(lambda x: x if x < 0 else f"+{x}")
-    # df['Odds'] = df['Odds'].apply(plus_prefix)
-    # df['Target'] = df['Target'].apply(plus_prefix)
     df['Target'] = df['Target'].apply(lambda x: x if x < 0 else f"+{x}")
 
     styled_df = df.style.format(precision=2).background_gradient(

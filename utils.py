@@ -44,10 +44,10 @@ def fix_names(list_of_player_names):
 
     return names.player_name
 
-def plus_prefix(a):
-    if a > 0:
-        return f"+{a}"
-    return a
+# def plus_prefix(a):
+#     if a > 0:
+#         return f"+{a}"
+#     return a
 
 market_target_dict = {
     'win':1.15,
