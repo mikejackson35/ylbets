@@ -2,8 +2,10 @@ import pandas as pd
 import plotly.express as px
 import numpy as np
 import streamlit as st
+import secrets
 
-dg_key = "e297e933c3ad47d71ec1626c299e"
+# dg_key = "e297e933c3ad47d71ec1626c299e"
+dg_key = st.secrets.dg_key
 # market_type = 'top_20'
 
 names_dict = {'Matt Fitzpatrick': 'Matthew Fitzpatrick',
@@ -43,11 +45,6 @@ def fix_names(list_of_player_names):
         names['player_name'] = np.where(names['player_name'] == incorrect_name, correct_name, names['player_name'])
 
     return names.player_name
-
-# def plus_prefix(a):
-#     if a > 0:
-#         return f"+{a}"
-#     return a
 
 market_target_dict = {
     'win':1.15,

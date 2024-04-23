@@ -7,6 +7,8 @@ import altair as alt
 from streamlit_extras.stoggle import stoggle
 from utils import get_ev_table, get_our_plays
 
+import secrets
+
 ## DISPLAY CONFIGS
 # Streamlit
 st.set_page_config(
@@ -19,6 +21,8 @@ with open(r"styles/main.css") as f:
     st.markdown("<style>{}</style>".format(f.read()), unsafe_allow_html=True) 
 #plotly
 config = {'displayModeBar': False}
+
+dg_key = st.secrets.dg_key
 
 
 ## MAIN FUNCTION TO RUN THE APP
