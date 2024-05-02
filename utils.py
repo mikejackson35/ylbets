@@ -63,7 +63,7 @@ def convert_euro_to_american(dec_odds):
 def get_our_plays(list_of_our_plays, live_odds):
     try:
         # read in live odds
-        usecols=['last_update', 'player_name', 'current_pos', 'win', 'top_5', 'top_10', 'top_20']
+        usecols=['last_update', 'player_name', 'current_pos', 'top_5', 'top_10', 'top_20']
         df = pd.read_csv(live_odds, usecols=usecols).convert_dtypes()
 
         # get last update time
@@ -71,7 +71,7 @@ def get_our_plays(list_of_our_plays, live_odds):
         df.drop(columns='last_update', inplace=True)
 
         # format percentages
-        df['win'] = ((df['win'] * 100).round()).astype(int).astype(str) + '%'
+        # df['win'] = ((df['win'] * 100).round()).astype(int).astype(str) + '%'
         df['top_5'] = ((df['top_5'] * 100).round()).astype(int).astype(str) + '%'
         df['top_10'] = ((df['top_10'] * 100).round()).astype(int).astype(str) + '%'
         df['top_20'] = ((df['top_20'] * 100).round()).astype(int).astype(str) + '%'
@@ -79,7 +79,7 @@ def get_our_plays(list_of_our_plays, live_odds):
         # filter to selected plays and needed columns
         our_plays_table = df[df['player_name'].isin(list_of_our_plays)].round(2).reset_index(drop=True)
         our_plays_table['player_name'] = fix_names(our_plays_table['player_name'])
-        our_plays_table.columns = ['Player','Pos','Top20','Top10','Top5','Win']
+        our_plays_table.columns = ['Player','Pos','Top20','Top10','Top5']#,'Win']
 
         # show last update time
         print(f"last updated: {updated_at[0]}")
