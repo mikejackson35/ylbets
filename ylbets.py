@@ -89,7 +89,7 @@ list_of_our_plays = [
 live_odds = LIVE_ODDS
 
 st.markdown(" ")
-st.markdown("Our Plays", unsafe_allow_html=True)
+st.markdown("My Plays", unsafe_allow_html=True)
 our_plays_table = get_our_plays(list_of_our_plays, LIVE_ODDS)
 
 st.dataframe(
