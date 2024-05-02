@@ -5,7 +5,7 @@ import streamlit as st
 import altair as alt
 
 from streamlit_extras.stoggle import stoggle
-from utils import get_ev_table, get_our_plays
+from utils import get_ev_table, get_our_plays, LIVE_ODDS
 
 import secrets
 
@@ -74,23 +74,47 @@ stoggle('ev targets',
     """)
 
 
-# placeholder for title
+# TITLE
 title_placeholder = st.empty()
 
-# user selectbox
+# OUR PLAYS TABLE
+list_of_our_plays = [
+    'Meissner, Mac',
+    'Endycott, Harrison',
+    'Hubbard, Mark',
+    'Schenk, Adam',
+    'Sigg, Greyson',
+    'Cummins, Quade']
+
+live_odds = LIVE_ODDS
+
+st.markdown(" ")
+st.markdown("Our Plays", unsafe_allow_html=True)
+our_plays_table = get_our_plays(list_of_our_plays, LIVE_ODDS)
+
+st.dataframe(
+    our_plays_table, 
+    hide_index=True,
+    # use_container_width=True
+    )
+
+# USER SELECTBOX
+st.markdown(" ")
 market_type = st.selectbox('Choose Market',
                            ('win','top_5','top_10','top_20'))
 
-# title
-title_placeholder.header('ylbets :eggplant:')
+# for TITLE placeholder above
+with title_placeholder:
+    st.header('ylbets :eggplant:')
 
-# Example usage:
-# our_plays = ['Hodges, Lee','Kirk, Chris','Putnam, Andrew','Eckroat, Austin']  # Your list of player names
-# url = "https://feeds.datagolf.com/preds/in-play?tour=pga&dead_heat=no&odds_format=percent&file_format=csv&key=e297e933c3ad47d71ec1626c299e"
-# columns = ['player_name', 'top_10']
-
-# st.dataframe(get_our_plays(our_plays, url, columns), hide_index=True,use_container_width=True)
-
-# display dataframe
-st.dataframe(main(), hide_index=True, height=3000 ,use_container_width=True, column_config={'Odds':None,
-                                                                                            'Books':None})
+# TARGET EV TABLE
+st.dataframe(
+    main(),
+    hide_index=True,
+    height=7500,
+    # use_container_width=True,
+    column_config={
+        'Odds':None,
+        'Books':None
+        }
+        )
