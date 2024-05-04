@@ -14,8 +14,10 @@ names_dict = {'Matt Fitzpatrick': 'Matthew Fitzpatrick',
     'Byeong An': 'Byeong Hun An',
     'Rooyen Van': 'Erik Van Rooyen',
     'Vince Whaley': 'Vincent Whaley',
-    'Kevin Yu': 'Kevin Yu',
-    'Kyounghoon Lee': 'Kyoung-Hoon Lee'
+    'kevin Yu': 'Kevin Yu',
+    'Kyounghoon Lee': 'Kyoung-Hoon Lee',
+    'Jr Hale': 'Blane Hale Jr',
+    'de Dumont': 'Adrien Dumont de Chassart'
              }
 
 def implied_probability(moneyline_odds):
@@ -97,7 +99,7 @@ def get_ev_table(market_type):
     # api calls
     dg_american = pd.read_csv(f"https://feeds.datagolf.com/betting-tools/outrights?tour=pga&market={market_type}&odds_format=american&file_format=csv&key={dg_key}")
     dg_decimal = pd.read_csv(f"https://feeds.datagolf.com/betting-tools/outrights?tour=pga&market={market_type}&odds_format=decimal&file_format=csv&key={dg_key}")
-    books = ['bet365','fanduel','draftkings']
+    books = ['caesars','fanduel','draftkings']
 
     # grab american and euro DataGolf odds for each player and combine
     am_odds = dg_american[['player_name','datagolf_base_history_fit']]
