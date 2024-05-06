@@ -89,14 +89,14 @@ list_of_our_plays = [
 live_odds = LIVE_ODDS
 
 st.markdown(" ")
-st.markdown("My Plays", unsafe_allow_html=True)
-our_plays_table = get_our_plays(list_of_our_plays, LIVE_ODDS)
+# st.markdown("My Plays", unsafe_allow_html=True)
+# our_plays_table = get_our_plays(list_of_our_plays, LIVE_ODDS)
 
-st.dataframe(
-    our_plays_table, 
-    hide_index=True,
-    # use_container_width=True
-    )
+# st.dataframe(
+#     our_plays_table, 
+#     hide_index=True,
+#     # use_container_width=True
+#     )
 
 # USER SELECTBOX
 st.markdown(" ")
