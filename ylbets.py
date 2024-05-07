@@ -58,7 +58,10 @@ def main():
         .astype({'target_decimal':'int'})
         .round({'target_american':-1})
         .assign(player_name=lambda x: fix_names(x['player_name']))
+        .rename(columns={'player_name':'Player','target_american':'American Target','decimal_target':'Decimal Target','ev':'EV'})
     )
+
+
 
     # add styling  ("+" prefixes and color)
     df['target_american'] = df['target_american'].apply(lambda x: x if x < 0 else f"+{x}")
