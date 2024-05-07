@@ -139,7 +139,7 @@ st.dataframe(
     height=6000,
     use_container_width=True,
     column_config={
-        'Odds':None,
-        'Books':None
+        # 'Odds':None,
+        # 'Books':None
         }
         )
