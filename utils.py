@@ -32,8 +32,10 @@ def implied_probability(moneyline_odds):
     return implied_prob
 
 def fix_names(list_of_player_names):
-    
-    # swaps last/first into first/last name
+    """
+    Inputs: list of player names in lastName, firstName format
+    Outputs: list of clean player names in firstName lastName format
+    """
     names = list_of_player_names.str.split(expand=True)                  
     names[0] = names[0].str.rstrip(",")
     names[1] = names[1].str.rstrip(",")
@@ -97,7 +99,7 @@ def get_ev_table(market_type):
     # api calls
     dg_american = pd.read_csv(f"https://feeds.datagolf.com/betting-tools/outrights?tour=pga&market={market_type}&odds_format=american&file_format=csv&key={dg_key}")
     dg_decimal = pd.read_csv(f"https://feeds.datagolf.com/betting-tools/outrights?tour=pga&market={market_type}&odds_format=decimal&file_format=csv&key={dg_key}")
-    books = ['bet365','fanduel','draftkings','caesars','betonline']
+    books = ['bet365','fanduel','draftkings','betonline']
 
     # grab american and euro DataGolf odds for each player and combine
     am_odds = dg_american[['player_name','datagolf_base_history_fit']]
