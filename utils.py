@@ -139,10 +139,10 @@ def get_ev_table(market_type):
     df['player_name'] = fix_names(df['player_name'])
 
     # column names
-    df = df[['player_name','target_american','ev','am_odds','ag_am']]
+    df = df[['player_name','target_american','ev','dg_american','books_mean_american']]
     df = df.dropna().astype(dtype={'target_american':'int',
                       'ev':'float',
-                      'am_odds':'int',
-                      'ag_am':'int'})
+                      'dg_american':'int',
+                      'books_mean_american':'int'})
 
     return df
