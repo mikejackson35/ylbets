@@ -113,26 +113,36 @@ def get_ev_table(market_type):
     # agg_dec = dg_decimal[books].T.max().to_frame()
 
     # combine and fix column names
+    # df = pd.merge(dg_odds, agg_am, left_index=True, right_index=True)
+    # df = pd.merge(df,agg_dec,left_index=True, right_index=True).T.drop_duplicates().T
+    # df.columns = ['player_name', 'am_odds','dec_odds','ag_am','ag_dec']
+
     df = pd.merge(dg_odds, agg_am, left_index=True, right_index=True)
     df = pd.merge(df,agg_dec,left_index=True, right_index=True).T.drop_duplicates().T
-    df.columns = ['player_name', 'am_odds','dec_odds','ag_am','ag_dec']
+    df.columns = ['player_name', 'dg_american','dg_decimal','books_mean_american','books_mean_decimal']
 
     # convert target euro odds to american for display
+    # df['market_type'] = market_type
+    # df['target_euro'] = df['market_type'].map(market_target_dict) * df['dec_odds']
+    # df['target_american'] = df['target_euro'].apply(convert_euro_to_american)
+
     df['market_type'] = market_type
-    df['target_euro'] = df['market_type'].map(market_target_dict) * df['dec_odds']
-    df['target_american'] = df['target_euro'].apply(convert_euro_to_american)
+    df['market_target'] = df['market_type'].map(market_target_dict)
+    df['target_decimal'] = (df['dg_decimal'] * df['market_target']).astype(float)
+    df['target_american'] = df['target_decimal'].apply(convert_euro_to_american).astype(int)
 
     # add expected value column (for color)
-    df['ev'] = (1 / df['dec_odds']) * df['ag_dec'] -1
+    # df['ev'] = (1 / df['dec_odds']) * df['ag_dec'] -1
+    df['ev'] = ((1 / df['dg_decimal']) * df['books_mean_decimal'] -1).astype(float)
 
     # flip first/last player names
-    df['player_name'] = fix_names(df['player_name'])
+    # df['player_name'] = fix_names(df['player_name'])
 
-    # column names
-    df = df[['player_name','target_american','ev','am_odds','ag_am']]
-    df = df.dropna().astype(dtype={'target_american':'int',
-                      'ev':'float',
-                      'am_odds':'int',
-                      'ag_am':'int'})
+    # # column names
+    # df = df[['player_name','target_american','ev','am_odds','ag_am']]
+    # df = df.dropna().astype(dtype={'target_american':'int',
+    #                   'ev':'float',
+    #                   'am_odds':'int',
+    #                   'ag_am':'int'})
 
     return df
