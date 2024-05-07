@@ -99,16 +99,18 @@ def get_ev_table(market_type):
     # api calls
     dg_american = pd.read_csv(f"https://feeds.datagolf.com/betting-tools/outrights?tour=pga&market={market_type}&odds_format=american&file_format=csv&key={dg_key}")
     dg_decimal = pd.read_csv(f"https://feeds.datagolf.com/betting-tools/outrights?tour=pga&market={market_type}&odds_format=decimal&file_format=csv&key={dg_key}")
-    books = ['bet365','fanduel','draftkings','betonline']
 
     # grab american and euro DataGolf odds for each player and combine
-    am_odds = dg_american[['player_name','datagolf_base_history_fit']]
-    dec_odds = dg_decimal[['player_name','datagolf_base_history_fit']]
+    am_odds = dg_american[['player_name','datagolf_base_history_fit']].rename(columns={'datagolf_base_history_fit':'am_odds_dg'})
+    dec_odds = dg_decimal[['player_name','datagolf_base_history_fit']].rename(columns={'datagolf_base_history_fit':'dec_odds_dg'})
     dg_odds = pd.merge(am_odds,dec_odds, on='player_name')
 
-    # get avg sportbooks line for each player in american and euro formats
-    agg_am = dg_american[books].T.max().to_frame()
-    agg_dec = dg_decimal[books].T.max().to_frame()
+    # get best sportbooks line for each player in american and euro formats
+    agg_am = dg_american.drop(columns=['player_name','dg_id','datagolf_baseline','datagolf_base_history_fit','last_updated','event_name','market']).T.max().to_frame()
+    agg_dec = dg_decimal.drop(columns=['player_name','dg_id','datagolf_baseline','datagolf_base_history_fit','last_updated','event_name','market']).T.max().to_frame()
+
+    # agg_am = dg_american[books].T.max().to_frame()
+    # agg_dec = dg_decimal[books].T.max().to_frame()
 
     # combine and fix column names
     df = pd.merge(dg_odds, agg_am, left_index=True, right_index=True)
