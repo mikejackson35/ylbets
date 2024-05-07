@@ -47,7 +47,7 @@ dg_key = st.secrets.dg_key
 #     return styled_df
 
 ## MAIN FUNCTION TO RUN THE APP
-def main(odds_type):
+def main():
     """
     inputs user selection and outputs un-styled dataframe with live odds and ev's
     """
