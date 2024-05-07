@@ -7,8 +7,6 @@ import altair as alt
 from streamlit_extras.stoggle import stoggle
 from utils import get_ev_table, get_our_plays, LIVE_ODDS
 
-import secrets
-
 ## DISPLAY CONFIGS
 # Streamlit
 st.set_page_config(
@@ -26,13 +24,11 @@ dg_key = st.secrets.dg_key
 
 
 ## MAIN FUNCTION TO RUN THE APP
-# takes user selection of market and displays the corresponding styled dataframe
 def main():
-
-    # inputs user selection and outputs un-styled dataframe with live odds and ev's
+    """
+    inputs user selection and outputs un-styled dataframe with live odds and ev's
+    """
     df = get_ev_table(market_type)
-
-    # fix column headers
     df.columns = ['Player','Target','EV','Odds','Books']
 
     # add styling  ("+" prefixes and color)
