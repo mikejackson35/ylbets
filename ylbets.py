@@ -5,7 +5,7 @@ import streamlit as st
 import altair as alt
 
 from streamlit_extras.stoggle import stoggle
-from utils import get_ev_table, get_our_plays, LIVE_ODDS
+from utils import get_ev_table, get_our_plays, LIVE_ODDS, fix_names
 
 ## DISPLAY CONFIGS
 # Streamlit
@@ -24,16 +24,45 @@ dg_key = st.secrets.dg_key
 
 
 ## MAIN FUNCTION TO RUN THE APP
-def main():
+# def main():
+#     """
+#     inputs user selection and outputs un-styled dataframe with live odds and ev's
+#     """
+#     df = get_ev_table(market_type)
+#     # df.columns = ['Player','Target','EV','Odds','Books']
+#     df = (
+#         df[['player_name','target_american','target_decimal','ev']]
+#         .astype({'target_decimal':'int'})
+#         .round({'target_american':-1})
+#         .assign(player_name=lambda x: fix_names(x['player_name']))
+#     )
+
+#     # add styling  ("+" prefixes and color)
+#     df['Odds'] = df['Odds'].apply(lambda x: x if x < 0 else f"+{x}")
+#     df['Target'] = df['Target'].apply(lambda x: x if x < 0 else f"+{x}")
+
+#     styled_df = df.style.format(precision=2).background_gradient(
+#         cmap="cividis", subset=['EV'], vmin=-.1)
+
+#     return styled_df
+
+## MAIN FUNCTION TO RUN THE APP
+def main(odds_type):
     """
     inputs user selection and outputs un-styled dataframe with live odds and ev's
     """
     df = get_ev_table(market_type)
-    df.columns = ['Player','Target','EV','Odds','Books']
+    # df.columns = ['Player','Target','EV','Odds','Books']
+    df = (
+        df[['player_name','target_american','target_decimal','ev']]
+        .astype({'target_decimal':'int'})
+        .round({'target_american':-1})
+        .assign(player_name=lambda x: fix_names(x['player_name']))
+    )
 
     # add styling  ("+" prefixes and color)
-    df['Odds'] = df['Odds'].apply(lambda x: x if x < 0 else f"+{x}")
-    df['Target'] = df['Target'].apply(lambda x: x if x < 0 else f"+{x}")
+    df['target_american'] = df['target_american'].apply(lambda x: x if x < 0 else f"+{x}")
+    # df['Target'] = df['Target'].apply(lambda x: x if x < 0 else f"+{x}")
 
     styled_df = df.style.format(precision=2).background_gradient(
         cmap="cividis", subset=['EV'], vmin=-.1)
