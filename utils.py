@@ -6,7 +6,7 @@ import secrets
 
 dg_key = st.secrets.dg_key
 
-LIVE_ODDS = "https://feeds.datagolf.com/preds/in-play?tour=pga&dead_heat=no&odds_format=percent&file_format=csv&key=e297e933c3ad47d71ec1626c299e"
+LIVE_ODDS = f"https://feeds.datagolf.com/preds/in-play?tour=pga&dead_heat=no&odds_format=percent&file_format=csv&key={dg_key}"
 
 names_dict = {'Matt Fitzpatrick': 'Matthew Fitzpatrick',
     'Si Kim': 'Si Woo Kim',
@@ -22,15 +22,13 @@ names_dict = {'Matt Fitzpatrick': 'Matthew Fitzpatrick',
 
 def implied_probability(moneyline_odds):
     """
-    Calculate the implied probability from moneyline odds.
+    Input: moneyline odds
+    Output: implied probability
     """
-    # Convert negative odds to positive for calculation
     if moneyline_odds < 0:
         implied_prob = abs(moneyline_odds) / (abs(moneyline_odds) + 100)
     else:
         implied_prob = 100 / (moneyline_odds + 100)
-    
-    # Return implied probability as percentage
     return implied_prob
 
 def fix_names(list_of_player_names):
