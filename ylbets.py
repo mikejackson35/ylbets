@@ -22,45 +22,19 @@ config = {'displayModeBar': False}
 
 dg_key = st.secrets.dg_key
 
-
-## MAIN FUNCTION TO RUN THE APP
-# def main():
-#     """
-#     inputs user selection and outputs un-styled dataframe with live odds and ev's
-#     """
-#     df = get_ev_table(market_type)
-#     # df.columns = ['Player','Target','EV','Odds','Books']
-#     df = (
-#         df[['player_name','target_american','target_decimal','ev']]
-#         .astype({'target_decimal':'int'})
-#         .round({'target_american':-1})
-#         .assign(player_name=lambda x: fix_names(x['player_name']))
-#     )
-
-#     # add styling  ("+" prefixes and color)
-#     df['Odds'] = df['Odds'].apply(lambda x: x if x < 0 else f"+{x}")
-#     df['Target'] = df['Target'].apply(lambda x: x if x < 0 else f"+{x}")
-
-#     styled_df = df.style.format(precision=2).background_gradient(
-#         cmap="cividis", subset=['EV'], vmin=-.1)
-
-#     return styled_df
-
 ## MAIN FUNCTION TO RUN THE APP
 def main():
     """
     inputs user selection and outputs un-styled dataframe with live odds and ev's
     """
     df = get_ev_table(market_type)
-    # df.columns = ['Player','Target','EV','Odds','Books']
+
     df = (
         df[['player_name','target_american','target_decimal','ev']]
         .astype({'target_decimal':'int'})
-        .round({'target_american':-1})
+        .round({'target_american':-2})
         .assign(player_name=lambda x: fix_names(x['player_name']))
     ).rename(columns={'player_name':'Player','target_american':'Target','target_decimal':'Target_','ev':'EV'})
-
-
 
     # add styling  ("+" prefixes and color)
     df['Target'] = df['Target'].apply(lambda x: x if x < 0 else f"+{x}")
@@ -75,7 +49,7 @@ def main():
 ## USER INTERFACE
 
 # details dropdown
-stoggle('info',
+stoggle('about',
         """
         ----------------------------------------------------------------------------------------------------------------------------
         <br>

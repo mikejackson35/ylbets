@@ -121,14 +121,4 @@ def get_ev_table(market_type):
     # add expected value column (for color)
     df['ev'] = ((1 / df['dg_decimal']) * df['books_mean_decimal'] -1).astype(float)
 
-    # flip first/last player names
-    # df['player_name'] = fix_names(df['player_name'])
-
-    # # column names
-    # df = df[['player_name','target_american','ev','dg_american','books_mean_american']]
-    # df = df.dropna().astype(dtype={'target_american':'int',
-    #                   'ev':'float',
-    #                   'dg_american':'int',
-    #                   'books_mean_american':'int'})
-
     return df
