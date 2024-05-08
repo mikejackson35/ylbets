@@ -34,11 +34,11 @@ def main():
         .astype({'target_decimal':'int'})
         .round({'target_american':-2})
         .assign(player_name=lambda x: fix_names(x['player_name']))
-    ).rename(columns={'player_name':'Player','target_american':'Target','target_decimal':'Target_','ev':'EV'})
+    ).rename(columns={'player_name':'Player','target_american':'Target US','target_decimal':'Target Euro','ev':'EV'})
 
     # add styling  ("+" prefixes and color)
-    df['Target'] = df['Target'].apply(lambda x: x if x < 0 else f"+{x}")
-    df['Target_'] = df['Target_'].apply(lambda x: f"{x}-1")
+    df['Target US'] = df['Target US'].apply(lambda x: x if x < 0 else f"+{x}")
+    df['Target Euro'] = df['Target Euro'].apply(lambda x: f"{x}-1")
 
     styled_df = df.style.format(precision=2).background_gradient(
         cmap="cividis", subset=['EV'], vmin=-.1)
@@ -108,12 +108,12 @@ market_type = st.selectbox('Choose Market',
 with title_placeholder:
     st.header('ylbets :eggplant:')
 
-on = st.toggle("american/euro odds")
+on = st.toggle("euro / american")
 
 if on:
-    odds_type_selection = 'Target_'
+    odds_type_selection = 'Target Euro'
 else:
-    odds_type_selection = 'Target'
+    odds_type_selection = 'Target US'
 
 # TARGET EV TABLE
 st.dataframe(
