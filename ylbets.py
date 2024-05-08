@@ -64,7 +64,7 @@ def main():
 
 
     # add styling  ("+" prefixes and color)
-    df['target_american'] = df['target_american'].apply(lambda x: x if x < 0 else f"+{x}")
+    df['American Target'] = df['American Target'].apply(lambda x: x if x < 0 else f"+{x}")
     # df['Target'] = df['Target'].apply(lambda x: x if x < 0 else f"+{x}")
 
     styled_df = df.style.format(precision=2).background_gradient(
