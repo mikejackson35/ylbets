@@ -30,15 +30,15 @@ def main():
     df = get_ev_table(market_type)
 
     df = (
-        df[['player_name','target_american','target_decimal','ev']]
-        .astype({'target_decimal':'int'})
-        .round({'target_american':-2})
+        df[['player_name','target_american','target_decimal','ev']].dropna()
         .assign(player_name=lambda x: fix_names(x['player_name']))
     ).rename(columns={'player_name':'Player','target_american':'Target US','target_decimal':'Target Euro','ev':'EV'})
 
+    df = df.dropna()
     # add styling  ("+" prefixes and color)
-    df['Target US'] = df['Target US'].apply(lambda x: x if x < 0 else f"+{x}")
-    df['Target Euro'] = df['Target Euro'].apply(lambda x: f"{x}-1")
+    df['Target US'] = df['Target US'].round(-2).astype(int).apply(lambda x: x if x <= 0 else f"+{x}")
+    df['Target Euro'] = df['Target Euro'].astype(int).apply(lambda x: f"{x}-1")
+    
 
     styled_df = df.style.format(precision=2).background_gradient(
         cmap="cividis", subset=['EV'], vmin=-.1)
@@ -80,18 +80,14 @@ title_placeholder = st.empty()
 
 # OUR PLAYS TABLE
 list_of_our_plays = [
-    'Meissner, Mac',
-    'Endycott, Harrison',
-    'Hubbard, Mark',
-    'Schenk, Adam',
-    'Sigg, Greyson',
-    'Cummins, Quade']
+    ''
+    ]
 
 live_odds = LIVE_ODDS
 
 st.markdown(" ")
-# st.markdown("My Plays", unsafe_allow_html=True)
-# our_plays_table = get_our_plays(list_of_our_plays, LIVE_ODDS)
+st.markdown("My Plays", unsafe_allow_html=True)
+our_plays_table = get_our_plays(list_of_our_plays, LIVE_ODDS)
 
 # st.dataframe(
 #     our_plays_table, 

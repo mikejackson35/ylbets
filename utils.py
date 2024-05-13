@@ -60,7 +60,7 @@ def convert_euro_to_american(dec_odds):
     if dec_odds >= 2:
         return (dec_odds - 1) * 100
     else:
-        return -100 / (dec_odds-1)
+        return -100 / (dec_odds-1) 
     
 def get_our_plays(list_of_our_plays, live_odds):
     try:
@@ -116,9 +116,9 @@ def get_ev_table(market_type):
     df['market_type'] = market_type
     df['market_target'] = df['market_type'].map(market_target_dict)
     df['target_decimal'] = (df['dg_decimal'] * df['market_target']).astype(float)
-    df['target_american'] = df['target_decimal'].apply(convert_euro_to_american).astype(int)
+    df['target_american'] = df['target_decimal'].apply(lambda x: convert_euro_to_american(x))
 
     # add expected value column (for color)
-    df['ev'] = ((1 / df['dg_decimal']) * df['books_mean_decimal'] -1).astype(float)
+    df['ev'] = ((1 / df['dg_decimal']) * df['books_mean_decimal'] -1)
 
     return df
