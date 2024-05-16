@@ -60,38 +60,35 @@ def convert_euro_to_american(dec_odds):
     if dec_odds >= 2:
         return (dec_odds - 1) * 100
     else:
-        return -100 / (dec_odds-1) 
+        return -100 / (dec_odds-1)
     
-def get_our_plays(list_of_our_plays, live_odds):
+def get_our_plays_table(our_plays):
     try:
         # read in live odds
-        usecols=['last_update', 'player_name', 'current_pos', 'top_5', 'top_10', 'top_20']
-        df = pd.read_csv(live_odds, usecols=usecols).convert_dtypes()
-
-        # get last update time
-        updated_at = pd.to_datetime(df['last_update']).dt.strftime('%H:%M')
-        df.drop(columns='last_update', inplace=True)
+        usecols=['player_name', 'current_pos', 'win', 'top_5', 'top_10', 'top_20']
+        df = pd.read_csv(LIVE_ODDS, usecols=usecols).convert_dtypes()
 
         # format percentages
-        # df['win'] = ((df['win'] * 100).round()).astype(int).astype(str) + '%'
-        df['top_5'] = ((df['top_5'] * 100).round()).astype(int).astype(str) + '%'
-        df['top_10'] = ((df['top_10'] * 100).round()).astype(int).astype(str) + '%'
-        df['top_20'] = ((df['top_20'] * 100).round()).astype(int).astype(str) + '%'
+        df['win'] = ((df['win'] * 100).round()).astype(int)#.astype(str) + '%'
+        df['top_5'] = ((df['top_5'] * 100).round()).astype(int)#.astype(str) + '%'
+        df['top_10'] = ((df['top_10'] * 100).round()).astype(int)#.astype(str) + '%'
+        df['top_20'] = ((df['top_20'] * 100).round()).astype(int)#.astype(str) + '%'
 
         # filter to selected plays and needed columns
-        our_plays_table = df[df['player_name'].isin(list_of_our_plays)].round(2).reset_index(drop=True)
+        our_plays_table = df[df['player_name'].isin(our_plays)].round(2).reset_index(drop=True)
         our_plays_table['player_name'] = fix_names(our_plays_table['player_name'])
-        our_plays_table.columns = ['Player','Pos','Top20','Top10','Top5']#,'Win']
-
-        # show last update time
-        print(f"last updated: {updated_at[0]}")
-        print(f" ")
+        our_plays_table.columns = ['Player','Pos','% T20','% T10','% T5','% Win']
 
         return our_plays_table
 
     except Exception as e:
         print("An error occurred:", e)
         return None
+    
+def get_update_stamp(live_odds):
+    time_stamp = pd.read_csv(live_odds, usecols=['last_update'])
+    time_stamp['last_update'] = pd.to_datetime(time_stamp['last_update']).dt.strftime('%H:%M')
+    return time_stamp
         
 
 def get_ev_table(market_type):
@@ -117,6 +114,7 @@ def get_ev_table(market_type):
     df['market_target'] = df['market_type'].map(market_target_dict)
     df['target_decimal'] = (df['dg_decimal'] * df['market_target']).astype(float)
     df['target_american'] = df['target_decimal'].apply(lambda x: convert_euro_to_american(x))
+
 
     # add expected value column (for color)
     df['ev'] = ((1 / df['dg_decimal']) * df['books_mean_decimal'] -1)

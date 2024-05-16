@@ -5,7 +5,7 @@ import streamlit as st
 import altair as alt
 
 from streamlit_extras.stoggle import stoggle
-from utils import get_ev_table, get_our_plays, LIVE_ODDS, fix_names
+from utils import get_ev_table, get_our_plays_table, LIVE_ODDS, fix_names, get_update_stamp
 
 ## DISPLAY CONFIGS
 # Streamlit
@@ -79,21 +79,25 @@ stoggle('ev targets',
 title_placeholder = st.empty()
 
 # OUR PLAYS TABLE
-list_of_our_plays = [
-    ''
+our_plays = [
+    'Murray, Grayson',
+    'Henley, Russell',
+    'Hoge, Tom',
+    'Moore, Taylor',
+    'Kitayama, Kurt',
+    'Hughes, Mackenzie'
     ]
 
-live_odds = LIVE_ODDS
+# st.markdown(" ")
+st.markdown(f"<h4>Our Plays</h4>", unsafe_allow_html=True)
+st.caption(f"last update: {get_update_stamp(LIVE_ODDS)['last_update'][0]}", unsafe_allow_html=True)
+our_plays_table = get_our_plays_table(our_plays)
 
-st.markdown(" ")
-st.markdown("My Plays", unsafe_allow_html=True)
-our_plays_table = get_our_plays(list_of_our_plays, LIVE_ODDS)
-
-# st.dataframe(
-#     our_plays_table, 
-#     hide_index=True,
-#     # use_container_width=True
-#     )
+st.dataframe(
+    our_plays_table.style.background_gradient(cmap="cividis"), 
+    hide_index=True,
+    # use_container_width=True
+    )
 
 # USER SELECTBOX
 st.markdown(" ")
@@ -103,6 +107,7 @@ market_type = st.selectbox('Choose Market',
 # for TITLE placeholder above
 with title_placeholder:
     st.header('ylbets :eggplant:')
+    # st.write(get_update_stamp)
 
 on = st.toggle("euro / american")
 
