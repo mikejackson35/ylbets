@@ -77,7 +77,7 @@ def get_our_plays_table(our_plays):
         # filter to selected plays and needed columns
         our_plays_table = df[df['player_name'].isin(our_plays)].round(2).reset_index(drop=True)
         our_plays_table['player_name'] = fix_names(our_plays_table['player_name'])
-        our_plays_table.columns = ['Player', 'Tot', 'Pos','% T20','% T10','% T5','% Win']
+        our_plays_table.columns = ['Player', 'Pos', 'Tot','% T20','% T10','% T5','% Win']
 
         return our_plays_table
 
