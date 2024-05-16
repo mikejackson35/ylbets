@@ -66,7 +66,7 @@ def get_our_plays_table(our_plays):
     try:
         # read in live odds
         df = pd.read_csv(LIVE_ODDS).convert_dtypes()
-        df = df[['player_name', 'current_score', 'current_pos', 'top_20']#, 'top_10', 'top_5', 'win']]
+        df = df[['player_name', 'current_score', 'current_pos', 'top_20']]#, 'top_10', 'top_5', 'win']]
 
         # format percentages
         # df['win'] = ((df['win'] * 100).round()).astype(int)#.astype(str) + '%'
