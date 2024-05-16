@@ -88,7 +88,7 @@ our_plays = [
     ]
 
 # st.markdown(" ")
-st.markdown(f"<h4>Our Plays</h4>", unsafe_allow_html=True)
+st.markdown(f"<h4>Live Plays</h4>", unsafe_allow_html=True)
 st.caption(f"last update: {get_update_stamp(LIVE_ODDS)['last_update'][0]}", unsafe_allow_html=True)
 our_plays_table = get_our_plays_table(our_plays)
 
