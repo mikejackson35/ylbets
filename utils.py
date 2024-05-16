@@ -65,8 +65,9 @@ def convert_euro_to_american(dec_odds):
 def get_our_plays_table(our_plays):
     try:
         # read in live odds
-        usecols=['player_name', 'current_score', 'current_pos', 'win', 'top_5', 'top_10', 'top_20']
-        df = pd.read_csv(LIVE_ODDS, usecols=usecols).convert_dtypes()
+        # usecols=['player_name', 'current_score', 'current_pos', 'win', 'top_5', 'top_10', 'top_20']
+        df = pd.read_csv(LIVE_ODDS).convert_dtypes()
+        df = df[['player_name', 'current_score', 'current_pos', 'win', 'top_5', 'top_10', 'top_20']]
 
         # format percentages
         df['win'] = ((df['win'] * 100).round()).astype(int)#.astype(str) + '%'
@@ -77,7 +78,7 @@ def get_our_plays_table(our_plays):
         # filter to selected plays and needed columns
         our_plays_table = df[df['player_name'].isin(our_plays)].round(2).reset_index(drop=True)
         our_plays_table['player_name'] = fix_names(our_plays_table['player_name'])
-        our_plays_table.columns = ['Player', 'Pos', 'Tot','% T20','% T10','% T5','% Win']
+        our_plays_table.columns = ['Player', 'Tot', 'Pos','% T20','% T10','% T5','% Win']
 
         return our_plays_table
 
