@@ -80,7 +80,6 @@ title_placeholder = st.empty()
 
 # OUR PLAYS TABLE
 our_plays = [
-    'Murray, Grayson',
     'Henley, Russell',
     'Hoge, Tom',
     'Moore, Taylor',
