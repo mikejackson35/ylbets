@@ -66,18 +66,18 @@ def get_our_plays_table(our_plays):
     try:
         # read in live odds
         df = pd.read_csv(LIVE_ODDS).convert_dtypes()
-        df = df[['player_name', 'current_score', 'current_pos', 'top_20']]#, 'top_10', 'top_5', 'win']]
+        df = df[['player_name', 'current_score', 'current_pos', 'top_20', 'top_10', 'top_5', 'win']]
 
         # format percentages
-        # df['win'] = ((df['win'] * 100).round()).astype(int)#.astype(str) + '%'
-        # df['top_5'] = ((df['top_5'] * 100).round()).astype(int)#.astype(str) + '%'
-        # df['top_10'] = ((df['top_10'] * 100).round()).astype(int)#.astype(str) + '%'
+        df['win'] = ((df['win'] * 100).round()).astype(int)#.astype(str) + '%'
+        df['top_5'] = ((df['top_5'] * 100).round()).astype(int)#.astype(str) + '%'
+        df['top_10'] = ((df['top_10'] * 100).round()).astype(int)#.astype(str) + '%'
         df['top_20'] = ((df['top_20'] * 100).round()).astype(int)#.astype(str) + '%'
 
         # filter to selected plays and needed columns
         our_plays_table = df[df['player_name'].isin(our_plays)].round(2).reset_index(drop=True)
         our_plays_table['player_name'] = fix_names(our_plays_table['player_name'])
-        our_plays_table.columns = ['Player', 'Tot', 'Pos','% T20']#,'% T10','% T5','% Win']
+        our_plays_table.columns = ['Player', 'Tot', 'Pos','% T20','% T10','% T5','% Win']
 
         return our_plays_table
 

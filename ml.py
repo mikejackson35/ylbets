@@ -13,10 +13,10 @@ st.set_page_config(page_title='Machine Learning App with Random Forest',layout='
 # we will build the model here 
 def build_model(df):
     X = df.iloc[:,:-1] # using all the colum except for the last column that is going to be predicted (Y)
-    Y = df.iloc[:,-1] # using the last column
+    y = df.iloc[:,-1] # using the last column
 
     # we will now split the data into test and train split
-    X_train, X_test, Y_train, Y_test = train_test_split(X,Y, test_size=(100-split_size)/100)
+    X_train, X_test, Y_train, Y_test = train_test_split(X,y, test_size=(100-split_size)/100)
 
 # Basic information printing
 
@@ -30,7 +30,7 @@ def build_model(df):
     st.write('The X Variable')
     st.info(list[X.columns])
     st.write('The Y Variable')
-    st.info(Y.name)
+    st.info(y.name)
 
     # Model training (Random Forest)
 
@@ -95,7 +95,7 @@ with st.sidebar.header('2. Set Parameters'):
 
 with st.sidebar.subheader('2.1. Learning Parameters'):
     parameter_n_estimators = st.sidebar.slider('Number of estimators (n_estimators)', 0, 1000, 100, 100)
-    parameter_max_features = st.sidebar.select_slider('Max features (max_features)', options=['auto', 'sqrt', 'log2'])
+    parameter_max_features = st.sidebar.select_slider('Max features (max_features)', options=[None, 'sqrt', 'log2'])
     parameter_min_samples_split = st.sidebar.slider('Minimum number of samples required to split an internal node (min_samples_split)', 1, 10, 2, 1)
     parameter_min_samples_leaf = st.sidebar.slider('Minimum number of samples required to be at a leaf node (min_samples_leaf)', 1, 10, 2, 1)
 
@@ -121,21 +121,21 @@ else:
     st.info('Awaiting for CSV file to be uploaded.')
     if st.button('Press to use Example Dataset'):
         # Diabetes dataset
-        #diabetes = load_diabetes()
-        #X = pd.DataFrame(diabetes.data, columns=diabetes.feature_names)
-        #Y = pd.Series(diabetes.target, name='response')
-        #df = pd.concat( [X,Y], axis=1 )
-
-        #st.markdown('The Diabetes dataset is used as the example.')
-        #st.write(df.head(5))
-
-        # Boston housing dataset
-        boston = load_boston()
-        X = pd.DataFrame(boston.data, columns=boston.feature_names)
-        Y = pd.Series(boston.target, name='response')
+        diabetes = load_diabetes()
+        X = pd.DataFrame(diabetes.data, columns=diabetes.feature_names)
+        Y = pd.Series(diabetes.target, name='response')
         df = pd.concat( [X,Y], axis=1 )
 
-        st.markdown('The Boston housing dataset is used as the example.')
+        st.markdown('The Diabetes dataset is used as the example.')
         st.write(df.head(5))
+
+        # Boston housing dataset
+        # boston = load_boston()
+        # X = pd.DataFrame(boston.data, columns=boston.feature_names)
+        # Y = pd.Series(boston.target, name='response')
+        # df = pd.concat( [X,Y], axis=1 )
+
+        # st.markdown('The Boston housing dataset is used as the example.')
+        # st.write(df.head(5))
 
         build_model(df)
