@@ -72,7 +72,7 @@ def get_our_plays_table(our_plays):
         df['win'] = ((df['win'] * 100).round()).astype(int)#.astype(str) + '%'
         df['top_5'] = ((df['top_5'] * 100).round()).astype(int)#.astype(str) + '%'
         df['top_10'] = ((df['top_10'] * 100).round()).astype(int)#.astype(str) + '%'
-        df['top_20'] = ((df['top_20'] * 100).round()).astype(int)#.astype(str) + '%'
+        # df['top_20'] = ((df['top_20'] * 100).round()).astype(int)#.astype(str) + '%'
 
         # filter to selected plays and needed columns
         our_plays_table = df[df['player_name'].isin(our_plays)].round(2).reset_index(drop=True)
