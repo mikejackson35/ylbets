@@ -91,7 +91,7 @@ st.caption(f"last update: {get_update_stamp(LIVE_ODDS)['last_update'][0]}", unsa
 our_plays_table = get_our_plays_table(our_plays)
 
 st.dataframe(
-    our_plays_table.style.background_gradient(cmap='cividis', subset=['% T10','% T5','% Win']), 
+    our_plays_table.style.background_gradient(cmap='cividis', subset=['% T10','% T5']),#,'% Win']), 
     hide_index=True,
     # use_container_width=True
     )
