@@ -97,6 +97,7 @@ with expander:
     st.write("Poston<br><small>T5  +1400<br>T10 +600",unsafe_allow_html=True)
     st.write(" ")
 
+
 st.caption(f"last update: {get_update_stamp(LIVE_ODDS)['last_update'][0]}", unsafe_allow_html=True)
 our_plays_table = get_our_plays_table(our_plays)
 
@@ -106,6 +107,7 @@ st.dataframe(
     # use_container_width=True
     )
 
+"---"
 # USER SELECTBOX
 st.markdown(" ")
 market_type = st.selectbox('Choose Market',
