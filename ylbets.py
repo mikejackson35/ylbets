@@ -96,6 +96,20 @@ st.dataframe(
     # use_container_width=True
     )
 
+st.markdown("""#
+            McCarthy
+            win     T5      T10
+            +5000   +1000   +450
+
+            Horschel
+            T5 +1100
+            T10 +530
+
+            Poston
+            T5  +1400
+            T10 +600
+            """,unsafe_allow_html=True)
+
 # USER SELECTBOX
 st.markdown(" ")
 market_type = st.selectbox('Choose Market',
