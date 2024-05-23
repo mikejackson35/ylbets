@@ -87,6 +87,21 @@ our_plays = [
 
 # st.markdown(" ")
 st.markdown(f"<h4>Live Plays</h4>", unsafe_allow_html=True)
+
+st.markdown("""
+McCarthy  
+                
+    win +5000   T5 +1000      T10 +450
+
+Horschel
+    
+    T5 +1100    T10 +530
+
+Poston
+            
+    T5  +1400   T10 +600
+            """,unsafe_allow_html=True)
+
 st.caption(f"last update: {get_update_stamp(LIVE_ODDS)['last_update'][0]}", unsafe_allow_html=True)
 our_plays_table = get_our_plays_table(our_plays)
 
@@ -95,20 +110,6 @@ st.dataframe(
     hide_index=True,
     # use_container_width=True
     )
-
-st.markdown("""#
-            McCarthy
-            win     T5      T10
-            +5000   +1000   +450
-
-            Horschel
-            T5 +1100
-            T10 +530
-
-            Poston
-            T5  +1400
-            T10 +600
-            """,unsafe_allow_html=True)
 
 # USER SELECTBOX
 st.markdown(" ")
