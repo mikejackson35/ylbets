@@ -77,6 +77,7 @@ def get_our_plays_table(our_plays):
         # filter to selected plays and needed columns
         our_plays_table = df[df['player_name'].isin(our_plays)].round(2).reset_index(drop=True)
         our_plays_table['player_name'] = fix_names(our_plays_table['player_name'])
+        our_plays_table['current_score'] = np.where(our_plays_table['current_score'] == 0, " E", our_plays_table['current_score']).astype(str)
         our_plays_table.columns = ['Player', 'Tot', 'Pos','% T10','% T5']#,'% Win']
 
         return our_plays_table
