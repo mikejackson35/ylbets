@@ -86,28 +86,28 @@ our_plays = [
     ]
 
 # st.markdown(" ")
-st.markdown(f"<h4>Live Plays</h4>", unsafe_allow_html=True)
+# st.markdown(f"<h4>Live Plays</h4>", unsafe_allow_html=True)
 
-expander = st.expander("CLICK to see our lines")
-with expander:
-    st.write("McCarthy<br><small>win +5000<br> T5 +1000<br> T10 +450",unsafe_allow_html=True)
-    st.write(" ")
-    st.write("Horschel<br><small>T5 +1100<br>T10 +530",unsafe_allow_html=True)
-    st.write(" ")
-    st.write("Poston<br><small>T5  +1400<br>T10 +600",unsafe_allow_html=True)
-    st.write(" ")
+# expander = st.expander("CLICK to see our lines")
+# with expander:
+#     st.write("McCarthy<br><small>win +5000<br> T5 +1000<br> T10 +450",unsafe_allow_html=True)
+#     st.write(" ")
+#     st.write("Horschel<br><small>T5 +1100<br>T10 +530",unsafe_allow_html=True)
+#     st.write(" ")
+#     st.write("Poston<br><small>T5  +1400<br>T10 +600",unsafe_allow_html=True)
+#     st.write(" ")
 
 
-st.caption(f"last update: {get_update_stamp(LIVE_ODDS)['last_update'][0]}", unsafe_allow_html=True)
-our_plays_table = get_our_plays_table(our_plays)
+# st.caption(f"last update: {get_update_stamp(LIVE_ODDS)['last_update'][0]}", unsafe_allow_html=True)
+# our_plays_table = get_our_plays_table(our_plays)
 
-st.dataframe(
-    our_plays_table.style.background_gradient(cmap='cividis', subset=['% T10','% T5']),#,'% Win']), 
-    hide_index=True,
-    # use_container_width=True
-    )
+# st.dataframe(
+#     our_plays_table.style.background_gradient(cmap='cividis', subset=['% T10','% T5']),#,'% Win']), 
+#     hide_index=True,
+#     # use_container_width=True
+#     )
 
-"---"
+# "---"
 # USER SELECTBOX
 st.markdown(" ")
 market_type = st.selectbox('Choose Market',
@@ -118,12 +118,12 @@ with title_placeholder:
     st.header('ylbets :eggplant:')
     # st.write(get_update_stamp)
 
-on = st.toggle("euro / american")
+on = st.toggle("american / euro")
 
 if on:
-    odds_type_selection = 'Target Euro'
-else:
     odds_type_selection = 'Target US'
+else:
+    odds_type_selection = 'Target Euro'
 
 # TARGET EV TABLE
 st.dataframe(
