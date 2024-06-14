@@ -81,12 +81,13 @@ title_placeholder = st.empty()
 # OUR PLAYS TABLE
 our_plays = [
     'Horschel, Billy',
-    'Poston, J.T.',
+    'Rai, Aaron',
     'McCarthy, Denny',
+    'An, Byeong Hun'
     ]
 
-# st.markdown(" ")
-# st.markdown(f"<h4>Live Plays</h4>", unsafe_allow_html=True)
+st.markdown(" ")
+st.markdown(f"<h4>Live Plays</h4>", unsafe_allow_html=True)
 
 # expander = st.expander("CLICK to see our lines")
 # with expander:
@@ -98,16 +99,16 @@ our_plays = [
 #     st.write(" ")
 
 
-# st.caption(f"last update: {get_update_stamp(LIVE_ODDS)['last_update'][0]}", unsafe_allow_html=True)
-# our_plays_table = get_our_plays_table(our_plays)
+st.caption(f"last update: {get_update_stamp(LIVE_ODDS)['last_update'][0]}", unsafe_allow_html=True)
+our_plays_table = get_our_plays_table(our_plays)
 
-# st.dataframe(
-#     our_plays_table.style.background_gradient(cmap='cividis', subset=['% T10','% T5']),#,'% Win']), 
-#     hide_index=True,
-#     # use_container_width=True
-#     )
+st.dataframe(
+    our_plays_table.style.background_gradient(cmap='cividis', subset=['% T10']),#,'% T5','% Win']), 
+    hide_index=True,
+    # use_container_width=True
+    )
 
-# "---"
+"---"
 # USER SELECTBOX
 st.markdown(" ")
 market_type = st.selectbox('Choose Market',
