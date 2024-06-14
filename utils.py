@@ -78,7 +78,7 @@ def get_our_plays_table(our_plays):
         our_plays_table = df[df['player_name'].isin(our_plays)].round(2).reset_index(drop=True)
         our_plays_table['player_name'] = fix_names(our_plays_table['player_name'])
         our_plays_table['current_score'] = np.where(our_plays_table['current_score'] == 0, " E", our_plays_table['current_score']).astype(str)
-        our_plays_table = our_plays_table.sort_values('current_pos')
+        our_plays_table = our_plays_table.sort_values('current_score')
         our_plays_table.columns = ['Player', 'Tot', 'Pos','% T10']#,'% Win']
 
         return our_plays_table
