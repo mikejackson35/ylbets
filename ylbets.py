@@ -86,8 +86,8 @@ our_plays = [
     'McIlroy, Rory'
     ]
 
-st.markdown(" ")
-st.markdown(f"<h4>Live Plays</h4>", unsafe_allow_html=True)
+# st.markdown(" ")
+# st.markdown(f"<h4>Live Plays</h4>", unsafe_allow_html=True)
 
 # expander = st.expander("CLICK to see our lines")
 # with expander:
@@ -99,15 +99,15 @@ st.markdown(f"<h4>Live Plays</h4>", unsafe_allow_html=True)
 #     st.write(" ")
 
 
-st.caption(f"last update: {get_update_stamp(LIVE_ODDS)['last_update'][0]}", unsafe_allow_html=True)
-our_plays_table = get_our_plays_table(our_plays)
+# st.caption(f"last update: {get_update_stamp(LIVE_ODDS)['last_update'][0]}", unsafe_allow_html=True)
+# our_plays_table = get_our_plays_table(our_plays)
 
-st.dataframe(
-    # our_plays_table.style.background_gradient(cmap='cividis', subset=['% T10','% Win']),#,'% T5','% Win']),
-    our_plays_table,  
-    hide_index=True,
-    # use_container_width=True
-    )
+# st.dataframe(
+#     # our_plays_table.style.background_gradient(cmap='cividis', subset=['% T10','% Win']),#,'% T5','% Win']),
+#     our_plays_table,  
+#     hide_index=True,
+#     # use_container_width=True
+#     )
 
 "---"
 # USER SELECTBOX
