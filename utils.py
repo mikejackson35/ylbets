@@ -105,8 +105,11 @@ def get_ev_table(market_type):
     dg_odds = pd.merge(am_odds,dec_odds, on='player_name')
 
     # get best sportbooks line for each player in american and euro formats
-    agg_am = dg_american.drop(columns=['player_name','dg_id','datagolf_baseline','datagolf_base_history_fit','last_updated','event_name','market']).T.max().to_frame()
-    agg_dec = dg_decimal.drop(columns=['player_name','dg_id','datagolf_baseline','datagolf_base_history_fit','last_updated','event_name','market']).T.max().to_frame()
+    # agg_am = dg_american.drop(columns=['player_name','dg_id','datagolf_baseline','datagolf_base_history_fit','last_updated','event_name','market']).T.max().to_frame()
+    # agg_dec = dg_decimal.drop(columns=['player_name','dg_id','datagolf_baseline','datagolf_base_history_fit','last_updated','event_name','market']).T.max().to_frame()
+
+    agg_am = dg_american[['unibet']].rename(columns={'unibet':0})
+    agg_dec = dg_decimal[['unibet']].rename(columns={'unibet':0})
 
     df = pd.merge(dg_odds, agg_am, left_index=True, right_index=True)
     df = pd.merge(df,agg_dec,left_index=True, right_index=True).T.drop_duplicates().T
